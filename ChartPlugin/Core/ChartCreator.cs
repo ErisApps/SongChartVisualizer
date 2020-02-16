@@ -27,17 +27,17 @@ namespace SongChartVisualizer.Core
             }
         }
 
-        private LevelData               _mainGameSceneSetupData;
-        private BeatmapData             _beatmapData;
+        private LevelData _mainGameSceneSetupData;
+        private BeatmapData _beatmapData;
         private AudioTimeSyncController _audioTimeSyncController;
-        private List<NpsInfo>           _npsSections;
-        private WindowGraph             _windowGraph;
+        private List<NpsInfo> _npsSections;
+        private WindowGraph _windowGraph;
 
         private AssetBundle _assetBundle;
-        private bool    _isInitialized;
-        private bool    _isFinished;
+        private bool _isInitialized;
+        private bool _isFinished;
         private NpsInfo _currentSection;
-        private int     _currentSectionIdx;
+        private int _currentSectionIdx;
         private GameObject _selfCursor;
         private int _hardestSectionIdx;
         private Canvas _canvas;
@@ -176,8 +176,9 @@ namespace SongChartVisualizer.Core
             var notes = new List<BeatmapObjectData>();
 
             notes = _beatmapData.beatmapLinesData.Aggregate(notes, (current, beatmapLineData) => current.Concat(beatmapLineData.beatmapObjectsData)
-                                                                                                        .Where(data => data.beatmapObjectType == BeatmapObjectType.Note).ToList());
+                                                                                                        .Where(data => data.beatmapObjectType == BeatmapObjectType.Note && ((NoteData)data).noteType != NoteType.Bomb).ToList());
             notes.Sort((s1, s2) => s1.time.CompareTo(s2.time));
+
             if (notes.Count > 0)
             {
                 var tempNoteCount = 0;
