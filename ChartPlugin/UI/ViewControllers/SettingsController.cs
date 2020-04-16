@@ -19,98 +19,98 @@ namespace SongChartVisualizer.UI.ViewControllers
         [UIValue("enabled-bool")]
         public bool enabledValue
         {
-            get => Plugin.config.Value.EnablePlugin;
-            set => Plugin.config.Value.EnablePlugin = value;
+            get => PluginConfig.Instance.EnablePlugin;
+            set => PluginConfig.Instance.EnablePlugin = value;
         }
 
         [UIValue("peak-warning-bool")]
         public bool peakWarningValue
         {
-            get => Plugin.config.Value.PeakWarning;
-            set => Plugin.config.Value.PeakWarning = value;
+            get => PluginConfig.Instance.PeakWarning;
+            set => PluginConfig.Instance.PeakWarning = value;
         }
 
         [UIValue("std-panel-x-pos-float")]
         public float stdPanelXPosValue
         {
-            get => Plugin.config.Value.ChartStandardLevelPosition.x;
+            get => PluginConfig.Instance.ChartStandardLevelPosition.x;
             set => _stdPos = new Float3(value, _stdPos.y, _stdPos.z);
         }
 
         [UIValue("std-panel-y-pos-float")]
         public float stdPanelYPosValue
         {
-            get => Plugin.config.Value.ChartStandardLevelPosition.y;
+            get => PluginConfig.Instance.ChartStandardLevelPosition.y;
             set => _stdPos = new Float3(_stdPos.x, value, _stdPos.z);
         }
 
         [UIValue("std-panel-z-pos-float")]
         public float stdPanelZPosValue
         {
-            get => Plugin.config.Value.ChartStandardLevelPosition.z;
+            get => PluginConfig.Instance.ChartStandardLevelPosition.z;
             set => _stdPos = new Float3(_stdPos.x, _stdPos.y, value);
         }
 
         [UIValue("std-panel-x-rot-float")]
         public float stdPanelXRotValue
         {
-            get => Plugin.config.Value.ChartStandardLevelRotation.x;
+            get => PluginConfig.Instance.ChartStandardLevelRotation.x;
             set => _stdRot = new Float3(value, _stdRot.y, _stdRot.z);
         }
 
         [UIValue("std-panel-y-rot-float")]
         public float stdPanelYRotValue
         {
-            get => Plugin.config.Value.ChartStandardLevelRotation.y;
+            get => PluginConfig.Instance.ChartStandardLevelRotation.y;
             set => _stdRot = new Float3(_stdRot.x, value, _stdRot.z);
         }
 
         [UIValue("std-panel-z-rot-float")]
         public float stdPanelZRotValue
         {
-            get => Plugin.config.Value.ChartStandardLevelRotation.z;
+            get => PluginConfig.Instance.ChartStandardLevelRotation.z;
             set => _stdRot = new Float3(_stdRot.x, _stdRot.y, value);
         }
 
         [UIValue("no-std-panel-x-pos-float")]
         public float noStdPanelXPosValue
         {
-            get => Plugin.config.Value.Chart360LevelPosition.x;
+            get => PluginConfig.Instance.Chart360LevelPosition.x;
             set => _noStdPos = new Float3(value, _noStdPos.y, _noStdPos.z);
         }
 
         [UIValue("no-std-panel-y-pos-float")]
         public float noStdPanelYPosValue
         {
-            get => Plugin.config.Value.Chart360LevelPosition.y;
+            get => PluginConfig.Instance.Chart360LevelPosition.y;
             set => _noStdPos = new Float3(_noStdPos.x, value, _noStdPos.z);
         }
 
         [UIValue("no-std-panel-z-pos-float")]
         public float noStdPanelZPosValue
         {
-            get => Plugin.config.Value.Chart360LevelPosition.z;
+            get => PluginConfig.Instance.Chart360LevelPosition.z;
             set => _noStdPos = new Float3(_noStdPos.x, _noStdPos.y, value);
         }
 
         [UIValue("no-std-panel-x-rot-float")]
         public float noStdPanelXRotValue
         {
-            get => Plugin.config.Value.Chart360LevelRotation.x;
+            get => PluginConfig.Instance.Chart360LevelRotation.x;
             set => _noStdRot = new Float3(value, _noStdRot.y, _noStdRot.z);
         }
 
         [UIValue("no-std-panel-y-rot-float")]
         public float noStdPanelYRotValue
         {
-            get => Plugin.config.Value.Chart360LevelRotation.y;
+            get => PluginConfig.Instance.Chart360LevelRotation.y;
             set => _noStdRot = new Float3(_noStdRot.x, value, _noStdRot.z);
         }
 
         [UIValue("no-std-panel-z-rot-float")]
         public float noStdPanelZRotValue
         {
-            get => Plugin.config.Value.Chart360LevelRotation.z;
+            get => PluginConfig.Instance.Chart360LevelRotation.z;
             set => _noStdRot = new Float3(_noStdRot.x, _noStdRot.y, value);
         }
 
@@ -149,13 +149,12 @@ namespace SongChartVisualizer.UI.ViewControllers
         [UIAction("#apply")]
         public void OnApply()
         {
-            Plugin.config.Value.EnablePlugin = enabledValue;
-            Plugin.config.Value.PeakWarning = peakWarningValue;
-            Plugin.config.Value.ChartStandardLevelPosition = _stdPos;
-            Plugin.config.Value.ChartStandardLevelRotation = _stdRot;
-            Plugin.config.Value.Chart360LevelPosition = _noStdPos;
-            Plugin.config.Value.Chart360LevelRotation = _noStdRot;
-            Plugin.configProvider.Store(Plugin.config.Value);
+            PluginConfig.Instance.EnablePlugin = enabledValue;
+            PluginConfig.Instance.PeakWarning = peakWarningValue;
+            PluginConfig.Instance.ChartStandardLevelPosition = _stdPos;
+            PluginConfig.Instance.ChartStandardLevelRotation = _stdRot;
+            PluginConfig.Instance.Chart360LevelPosition = _noStdPos;
+            PluginConfig.Instance.Chart360LevelRotation = _noStdRot;
         }
     }
 }

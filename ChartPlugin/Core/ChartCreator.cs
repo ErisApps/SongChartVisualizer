@@ -60,14 +60,14 @@ namespace SongChartVisualizer.Core
                     for (var i = 0; i < _npsSections.Count; i++)
                     {
                         var npsInfos = _npsSections[i];
-                        Logger.log.Debug($"Nps at section {i + 1}: {npsInfos.nps} (from [{npsInfos.fromTime}] to [{npsInfos.toTime}])");
+                        Plugin.Log.Debug($"Nps at section {i + 1}: {npsInfos.nps} (from [{npsInfos.fromTime}] to [{npsInfos.toTime}])");
                     }
-                    Logger.log.Debug("Loading assetbundle..");
+                    Plugin.Log.Debug("Loading assetbundle..");
                     var assembly = Assembly.GetExecutingAssembly();
                     using (var stream = assembly.GetManifestResourceStream("SongChartVisualizer.UI.linegraph"))
                         _assetBundle = AssetBundle.LoadFromStream(stream);
                     if (!_assetBundle)
-                        Logger.log.Warn("Failed to load AssetBundle! The chart may not work properly..");
+                        Plugin.Log.Warn("Failed to load AssetBundle! The chart may not work properly..");
                     else
                     {
                         var prefab = _assetBundle.LoadAsset<GameObject>("LineGraph");
@@ -87,7 +87,7 @@ namespace SongChartVisualizer.Core
                         _hardestSectionIdx = _npsSections.FindIndex(info => Math.Abs(info.nps - highestValue) < 0.001f);
                         PrepareWarningText();
                         CreateSelfCursor(Color.green);
-                        _canvas.enabled = Plugin.config.Value.PeakWarning && _currentSectionIdx + 1 == _hardestSectionIdx;
+                        _canvas.enabled = PluginConfig.Instance.PeakWarning && _currentSectionIdx + 1 == _hardestSectionIdx;
                         if (_canvas.enabled)
                             FadeInText(_text, _currentSection.toTime * 0.2f);
                         _isInitialized = true;
@@ -148,14 +148,14 @@ namespace SongChartVisualizer.Core
                 {
                     _currentSectionIdx += 1;
                     var oldState = _canvas.enabled;
-                    _canvas.enabled = Plugin.config.Value.PeakWarning && _currentSectionIdx + 1 == _hardestSectionIdx;
+                    _canvas.enabled = PluginConfig.Instance.PeakWarning && _currentSectionIdx + 1 == _hardestSectionIdx;
                     if (_currentSectionIdx + 1 >= _npsSections.Count)
                     {
                         _isFinished = true;
                         return;
                     }
                     _currentSection = _npsSections[_currentSectionIdx];
-                    if (Plugin.config.Value.PeakWarning && !oldState && _canvas && _canvas.enabled)
+                    if (PluginConfig.Instance.PeakWarning && !oldState && _canvas && _canvas.enabled)
                         FadeInText(_text, (_currentSection.toTime - _audioTimeSyncController.songTime) * 0.2f);
                 }
                 var dotPos = Vector3.Lerp(_windowGraph.DotObjects[_currentSectionIdx].GetComponent<RectTransform>().position,
@@ -163,7 +163,7 @@ namespace SongChartVisualizer.Core
                                           (_audioTimeSyncController.songTime - _currentSection.fromTime) / (_currentSection.toTime - _currentSection.fromTime));
                 dotPos.z -= 0.001f;
                 _selfCursor.transform.position = dotPos;
-                if (Plugin.config.Value.PeakWarning && _canvas && _canvas.enabled)
+                if (PluginConfig.Instance.PeakWarning && _canvas && _canvas.enabled)
                     _text.text = $"You're about to reach the peak difficulty in <color=#ffa500ff>{_currentSection.toTime - _audioTimeSyncController.songTime:F1}</color> seconds!";
             }
         }

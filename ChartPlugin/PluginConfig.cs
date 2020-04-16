@@ -1,9 +1,14 @@
-﻿using SongChartVisualizer.Models;
+﻿using System.Runtime.CompilerServices;
+using IPA.Config.Stores;
+using SongChartVisualizer.Models;
 
+[assembly: InternalsVisibleTo(GeneratedStore.AssemblyVisibilityTarget)]
 namespace SongChartVisualizer
 {
     internal class PluginConfig
     {
+        public static PluginConfig Instance { get; set; }
+
         public bool RegenerateConfig = true;
         public bool EnablePlugin = true;
         public bool PeakWarning = true;
