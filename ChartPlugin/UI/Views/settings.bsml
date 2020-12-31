@@ -1,73 +1,74 @@
-﻿<scrollable-settings-container xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='https://monkeymanboy.github.io/BSML-Docs/ https://raw.githubusercontent.com/monkeymanboy/BSML-Docs/gh-pages/BSMLSchema.xsd'>
-  <bool-setting text='Enabled' value='enabled-bool' />
-  <horizontal pref-width='90'>
-    <text text='Standard panel position:' font-size='5'/>
-  </horizontal>
-  <horizontal>
-    <horizontal horizontal-fit='PreferredSize'>
-      <increment-setting id='std-pos-x-field' text='X' value='std-panel-x-pos-float' increment='0.05'
-                         hover-hint="The left/right position" pref-width='28.5'/>
-    </horizontal>
-    <horizontal horizontal-fit='PreferredSize'>
-      <increment-setting id='std-pos-y-field' text='Y' value='std-panel-y-pos-float' increment='0.05'
-                         hover-hint="The up/down position" pref-width='28.5'/>
-    </horizontal>
-    <horizontal horizontal-fit='PreferredSize'>
-      <increment-setting id='std-pos-z-field' text='Z' value='std-panel-z-pos-float' increment='0.05'
-                         hover-hint="The forward/backward position" pref-width='28.5'/>
-    </horizontal>
-  </horizontal>
-  <horizontal pref-width='90'>
-    <text text='Standard panel rotation:' font-size='5'/>
-  </horizontal>
-  <horizontal>
-    <horizontal horizontal-fit='PreferredSize'>
-      <increment-setting id='std-rot-x-field' text='X' value='std-panel-x-rot-float' min='-355' max='355' increment='5'
-                         hover-hint="The roll axis" pref-width='28.5' />
-    </horizontal>
-    <horizontal horizontal-fit='PreferredSize'>
-      <increment-setting id='std-rot-y-field' text='Y' value='std-panel-y-rot-float' min='-355' max='355' increment='5'
-                         hover-hint="The pitch axis" pref-width='28.5' />
-    </horizontal>
-    <horizontal horizontal-fit='PreferredSize'>
-      <increment-setting id='std-rot-z-field' text='Z' value='std-panel-z-rot-float' min='-355' max='355' increment='5'
-                         hover-hint="The yaw axis" pref-width='28.5' />
-    </horizontal>
-  </horizontal>
-  <horizontal pref-width='90'>
-    <text text='90/360 panel position:' font-size='5'/>
-  </horizontal>
-  <horizontal>
-    <horizontal horizontal-fit='PreferredSize'>
-      <increment-setting id='no-std-pos-x-field' text='X' value='no-std-panel-x-pos-float' increment='0.05'
-                         hover-hint="The left/right position" pref-width='28.5'/>
-    </horizontal>
-    <horizontal horizontal-fit='PreferredSize'>
-      <increment-setting id='no-std-pos-y-field' text='Y' value='no-std-panel-y-pos-float' increment='0.05'
-                         hover-hint="The up/down position" pref-width='28.5'/>
-    </horizontal>
-    <horizontal horizontal-fit='PreferredSize'>
-      <increment-setting id='no-std-pos-z-field' text='Z' value='no-std-panel-z-pos-float' increment='0.05'
-                         hover-hint="The forward/backward position" pref-width='28.5'/>
-    </horizontal>
-  </horizontal>
-  <horizontal pref-width='90'>
-    <text text='90/360 panel rotation:' font-size='5'/>
-  </horizontal>
-  <horizontal>
-    <horizontal horizontal-fit='PreferredSize'>
-      <increment-setting id='no-std-rot-x-field' text='X' value='no-std-panel-x-rot-float' min='-355' max='355' increment='5'
-                         hover-hint="The roll axis" pref-width='28.5' />
-    </horizontal>
-    <horizontal horizontal-fit='PreferredSize'>
-      <increment-setting id='no-std-rot-y-field' text='Y' value='no-std-panel-y-rot-float' min='-355' max='355' increment='5'
-                         hover-hint="The pitch axis" pref-width='28.5' />
-    </horizontal>
-    <horizontal horizontal-fit='PreferredSize'>
-      <increment-setting id='no-std-rot-z-field' text='Z' value='no-std-panel-z-rot-float' min='-355' max='355' increment='5'
-                         hover-hint="The yaw axis" pref-width='28.5' />
-    </horizontal>
-  </horizontal>
-  <bool-setting text='Show peak difficulty warning' value='peak-warning-bool'
-                hover-hint="Shows the warning text in-game when you're about to reach the peak difficulty of the song." />
+﻿<scrollable-settings-container xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
+							   xsi:schemaLocation='https://monkeymanboy.github.io/BSML-Docs/ https://raw.githubusercontent.com/monkeymanboy/BSML-Docs/gh-pages/BSMLSchema.xsd'>
+	<bool-setting text='Enabled' value='enabled-bool'/>
+	<horizontal pref-width='90'>
+		<text text='Standard panel position:' font-size='5'/>
+	</horizontal>
+	<horizontal>
+		<horizontal horizontal-fit='PreferredSize'>
+			<increment-setting id='std-pos-x-field' text='X' value='std-panel-x-pos-float' increment='0.05'
+							   hover-hint="The left/right position" pref-width='28.5'/>
+		</horizontal>
+		<horizontal horizontal-fit='PreferredSize'>
+			<increment-setting id='std-pos-y-field' text='Y' value='std-panel-y-pos-float' increment='0.05'
+							   hover-hint="The up/down position" pref-width='28.5'/>
+		</horizontal>
+		<horizontal horizontal-fit='PreferredSize'>
+			<increment-setting id='std-pos-z-field' text='Z' value='std-panel-z-pos-float' increment='0.05'
+							   hover-hint="The forward/backward position" pref-width='28.5'/>
+		</horizontal>
+	</horizontal>
+	<horizontal pref-width='90'>
+		<text text='Standard panel rotation:' font-size='5'/>
+	</horizontal>
+	<horizontal>
+		<horizontal horizontal-fit='PreferredSize'>
+			<increment-setting id='std-rot-x-field' text='X' value='std-panel-x-rot-float' min='-355' max='355' increment='5'
+							   hover-hint="The roll axis" pref-width='28.5'/>
+		</horizontal>
+		<horizontal horizontal-fit='PreferredSize'>
+			<increment-setting id='std-rot-y-field' text='Y' value='std-panel-y-rot-float' min='-355' max='355' increment='5'
+							   hover-hint="The pitch axis" pref-width='28.5'/>
+		</horizontal>
+		<horizontal horizontal-fit='PreferredSize'>
+			<increment-setting id='std-rot-z-field' text='Z' value='std-panel-z-rot-float' min='-355' max='355' increment='5'
+							   hover-hint="The yaw axis" pref-width='28.5'/>
+		</horizontal>
+	</horizontal>
+	<horizontal pref-width='90'>
+		<text text='90/360 panel position:' font-size='5'/>
+	</horizontal>
+	<horizontal>
+		<horizontal horizontal-fit='PreferredSize'>
+			<increment-setting id='no-std-pos-x-field' text='X' value='no-std-panel-x-pos-float' increment='0.05'
+							   hover-hint="The left/right position" pref-width='28.5'/>
+		</horizontal>
+		<horizontal horizontal-fit='PreferredSize'>
+			<increment-setting id='no-std-pos-y-field' text='Y' value='no-std-panel-y-pos-float' increment='0.05'
+							   hover-hint="The up/down position" pref-width='28.5'/>
+		</horizontal>
+		<horizontal horizontal-fit='PreferredSize'>
+			<increment-setting id='no-std-pos-z-field' text='Z' value='no-std-panel-z-pos-float' increment='0.05'
+							   hover-hint="The forward/backward position" pref-width='28.5'/>
+		</horizontal>
+	</horizontal>
+	<horizontal pref-width='90'>
+		<text text='90/360 panel rotation:' font-size='5'/>
+	</horizontal>
+	<horizontal>
+		<horizontal horizontal-fit='PreferredSize'>
+			<increment-setting id='no-std-rot-x-field' text='X' value='no-std-panel-x-rot-float' min='-355' max='355' increment='5'
+							   hover-hint="The roll axis" pref-width='28.5'/>
+		</horizontal>
+		<horizontal horizontal-fit='PreferredSize'>
+			<increment-setting id='no-std-rot-y-field' text='Y' value='no-std-panel-y-rot-float' min='-355' max='355' increment='5'
+							   hover-hint="The pitch axis" pref-width='28.5'/>
+		</horizontal>
+		<horizontal horizontal-fit='PreferredSize'>
+			<increment-setting id='no-std-rot-z-field' text='Z' value='no-std-panel-z-rot-float' min='-355' max='355' increment='5'
+							   hover-hint="The yaw axis" pref-width='28.5'/>
+		</horizontal>
+	</horizontal>
+	<bool-setting text='Show peak difficulty warning' value='peak-warning-bool'
+				  hover-hint="Shows the warning text in-game when you're about to reach the peak difficulty of the song."/>
 </scrollable-settings-container>

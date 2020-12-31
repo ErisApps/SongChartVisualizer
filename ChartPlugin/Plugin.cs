@@ -2,7 +2,6 @@
 using System.Reflection;
 using BeatSaberMarkupLanguage;
 using BeatSaberMarkupLanguage.FloatingScreen;
-using BeatSaberMarkupLanguage.Settings;
 using IPA;
 using IPA.Config.Stores;
 using IPA.Loader;
@@ -28,6 +27,7 @@ namespace SongChartVisualizer
             PluginConfig.Instance = config.Generated<PluginConfig>();
 
             zenject.OnApp<ScvAppInstaller>().WithParameters(logger, config.Generated<PluginConfig>(), metadata.Name ?? Assembly.GetExecutingAssembly().GetName().Name);
+            zenject.OnMenu<SvcMenuInstaller>();
         }
 
         [OnEnable, OnDisable]
@@ -37,11 +37,6 @@ namespace SongChartVisualizer
         }
 
         #region Events
-
-        private static void OnMenuSceneLoadedFresh()
-        {
-            BSMLSettings.instance.AddSettingsMenu("<size=75%>Song Chart Visualizer</size>", "SongChartVisualizer.UI.Views.settings.bsml", SettingsController.instance);
-        }
 
         private static void OnGameSceneActive()
         {
