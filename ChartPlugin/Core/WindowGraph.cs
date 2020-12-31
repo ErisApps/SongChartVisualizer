@@ -12,6 +12,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -19,19 +20,20 @@ namespace SongChartVisualizer.Core
 {
 	public class WindowGraph : MonoBehaviour
 	{
-		public  Sprite        circleSprite;
-		private RectTransform _labelTemplateX;
-		private RectTransform _labelTemplateY;
-		private RectTransform _dashTemplateX;
-		private RectTransform _dashTemplateY;
+		private RectTransform? _labelTemplateX;
+		private RectTransform? _labelTemplateY;
+		private RectTransform? _dashTemplateX;
+		private RectTransform? _dashTemplateY;
 
-		public RectTransform    GraphContainer { get; private set; }
-		public List<GameObject> DotObjects     { get; private set; }
-		public List<GameObject> LinkObjects    { get; private set; }
-		public List<GameObject> LabelXObjects  { get; private set; }
-		public List<GameObject> LabelYObjects  { get; private set; }
-		public List<GameObject> DashXObjects   { get; private set; }
-		public List<GameObject> DashYObjects   { get; private set; }
+		public Sprite? circleSprite;
+
+		public RectTransform? GraphContainer { get; private set; }
+		public List<GameObject>? DotObjects { get; private set; }
+		public List<GameObject>? LinkObjects { get; private set; }
+		public List<GameObject>? LabelXObjects { get; private set; }
+		public List<GameObject>? LabelYObjects { get; private set; }
+		public List<GameObject>? DashXObjects { get; private set; }
+		public List<GameObject>? DashYObjects { get; private set; }
 
 		private void Awake()
 		{
@@ -49,52 +51,75 @@ namespace SongChartVisualizer.Core
 			DashYObjects = new List<GameObject>();
 		}
 
-		public void ShowGraph(List<float>         valueList,              bool                makeDotsVisible       = true, bool makeLinksVisible = true,
-			bool                makeOriginZero = false, int                 maxVisibleValueAmount = -1,
-			Func<float, string> getAxisLabelX  = null,  Func<float, string> getAxisLabelY         = null)
+		public void ShowGraph(List<float> valueList, bool makeDotsVisible = true, bool makeLinksVisible = true, bool makeOriginZero = false, int maxVisibleValueAmount = -1,
+			Func<float, string>? getAxisLabelX = null, Func<float, string>? getAxisLabelY = null)
 		{
-			if (getAxisLabelX == null)
-				getAxisLabelX = delegate(float _i) { return _i.ToString(); };
-			if (getAxisLabelY == null)
-				getAxisLabelY = delegate(float _f) { return Mathf.RoundToInt(_f).ToString(); };
+			getAxisLabelX ??= i => i.ToString(CultureInfo.InvariantCulture);
+
+			getAxisLabelY ??= f => Mathf.RoundToInt(f).ToString();
 
 			if (maxVisibleValueAmount <= 0)
+			{
 				maxVisibleValueAmount = valueList.Count;
+			}
 
 			if (DotObjects != null)
 			{
 				foreach (var go in DotObjects)
+				{
 					Destroy(go);
+				}
+
 				DotObjects.Clear();
 			}
+
 			if (LinkObjects != null)
 			{
 				foreach (var go in LinkObjects)
+				{
 					Destroy(go);
+				}
+
 				LinkObjects.Clear();
 			}
+
 			if (LabelXObjects != null)
 			{
 				foreach (var go in LabelXObjects)
+				{
 					Destroy(go);
+				}
+
 				LabelXObjects.Clear();
 			}
+
 			if (LabelYObjects != null)
 			{
 				foreach (var go in LabelYObjects)
+				{
 					Destroy(go);
+				}
+
 				LabelYObjects.Clear();
 			}
+
 			if (DashXObjects != null)
 			{
 				foreach (var go in DashXObjects)
+				{
 					Destroy(go);
+				}
+
 				DashXObjects.Clear();
 			}
+
 			if (DashYObjects != null)
 			{
 				foreach (var go in DashYObjects)
+				{
 					Destroy(go);
+				}
+
 				DashYObjects.Clear();
 			}
 
@@ -108,27 +133,37 @@ namespace SongChartVisualizer.Core
 			{
 				var value = valueList[i];
 				if (value > yMaximum)
+				{
 					yMaximum = value;
+				}
+
 				if (value < yMinimum)
+				{
 					yMinimum = value;
+				}
 			}
 
 			var yDifference = yMaximum - yMinimum;
 			if (yDifference <= 0)
+			{
 				yDifference = 5f;
-			yMaximum = yMaximum + (yDifference * 0.2f);
-			yMinimum = yMinimum - (yDifference * 0.2f);
+			}
+
+			yMaximum += (yDifference * 0.2f);
+			yMinimum -= (yDifference * 0.2f);
 
 			if (makeOriginZero)
+			{
 				yMinimum = 0f; // Start the graph at zero
+			}
 
 			var xSize = graphWidth / (maxVisibleValueAmount + 1);
 			var xIndex = 0;
 
-			GameObject lastCircleGameObject = null;
+			GameObject? lastCircleGameObject = null;
 			for (var i = Mathf.Max(valueList.Count - maxVisibleValueAmount, 0); i < valueList.Count; i++)
 			{
-				var xPosition = xSize + xIndex            * xSize;
+				var xPosition = xSize + xIndex * xSize;
 				var yPosition = (valueList[i] - yMinimum) / (yMaximum - yMinimum) * graphHeight;
 				var circleGameObject = CreateCircle(new Vector2(xPosition, yPosition), makeDotsVisible);
 				DotObjects.Add(circleGameObject);
@@ -139,6 +174,7 @@ namespace SongChartVisualizer.Core
 						makeLinksVisible);
 					LinkObjects.Add(dotConnectionGameObject);
 				}
+
 				lastCircleGameObject = circleGameObject;
 
 				var labelX = Instantiate(_labelTemplateX);
@@ -163,7 +199,7 @@ namespace SongChartVisualizer.Core
 				var labelY = Instantiate(_labelTemplateY);
 				labelY.SetParent(GraphContainer, false);
 				labelY.gameObject.SetActive(true);
-				var normalizedValue = i                                    * 1f / separatorCount;
+				var normalizedValue = i * 1f / separatorCount;
 				labelY.anchoredPosition = new Vector2(-7f, normalizedValue * graphHeight);
 				labelY.GetComponent<Text>().text = getAxisLabelY(yMinimum + (normalizedValue * (yMaximum - yMinimum)));
 				LabelYObjects.Add(labelY.gameObject);
@@ -178,28 +214,32 @@ namespace SongChartVisualizer.Core
 
 		private GameObject CreateCircle(Vector2 anchoredPosition, bool makeDotsVisible)
 		{
-			var gameObject = new GameObject("Circle", typeof(Image));
-			gameObject.transform.SetParent(GraphContainer, false);
-			var image = gameObject.GetComponent<Image>();
+			var go = new GameObject("Circle", typeof(Image));
+			go.transform.SetParent(GraphContainer, false);
+			var image = go.GetComponent<Image>();
 			image.sprite = circleSprite;
 			image.useSpriteMesh = true;
 			image.enabled = makeDotsVisible;
-			var rectTransform = gameObject.GetComponent<RectTransform>();
+
+			var rectTransform = go.GetComponent<RectTransform>();
 			rectTransform.anchoredPosition = anchoredPosition;
 			rectTransform.sizeDelta = new Vector2(8, 8);
 			rectTransform.anchorMin = new Vector2(0, 0);
 			rectTransform.anchorMax = new Vector2(0, 0);
-			return gameObject;
+
+			return go;
 		}
 
 		private GameObject CreateDotConnection(Vector2 dotPositionA, Vector2 dotPositionB, bool makeLinkVisible)
 		{
-			var gameObject = new GameObject("DotConnection", typeof(Image));
-			gameObject.transform.SetParent(GraphContainer, false);
-			var image = gameObject.GetComponent<Image>();
+			var go = new GameObject("DotConnection", typeof(Image));
+			go.transform.SetParent(GraphContainer, false);
+
+			var image = go.GetComponent<Image>();
 			image.color = new Color(1, 1, 1, .5f);
 			image.enabled = makeLinkVisible;
-			var rectTransform = gameObject.GetComponent<RectTransform>();
+
+			var rectTransform = go.GetComponent<RectTransform>();
 			var dir = (dotPositionB - dotPositionA).normalized;
 			var distance = Vector2.Distance(dotPositionA, dotPositionB);
 			rectTransform.anchorMin = new Vector2(0, 0);
@@ -207,7 +247,8 @@ namespace SongChartVisualizer.Core
 			rectTransform.sizeDelta = new Vector2(distance, 2f);
 			rectTransform.anchoredPosition = dotPositionA + dir * distance * .5f;
 			rectTransform.localEulerAngles = new Vector3(0, 0, Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg);
-			return gameObject;
+
+			return go;
 		}
 	}
 }
