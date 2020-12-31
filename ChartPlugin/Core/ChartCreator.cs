@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection;
 using BS_Utils.Gameplay;
 using DigitalRuby.Tween;
+using SongChartVisualizer.Models;
 using SongChartVisualizer.Utilities;
 using TMPro;
 using UnityEngine;
@@ -13,21 +14,7 @@ namespace SongChartVisualizer.Core
 {
     public class ChartCreator : MonoBehaviour
     {
-        public class NpsInfo
-        {
-            public float nps;
-            public float fromTime;
-            public float toTime;
-
-            public NpsInfo(float nps, float fromTime, float toTime)
-            {
-                this.nps = nps;
-                this.fromTime = fromTime;
-                this.toTime = toTime;
-            }
-        }
-
-        private LevelData _mainGameSceneSetupData;
+	    private LevelData _mainGameSceneSetupData;
         private BeatmapData _beatmapData;
         private AudioTimeSyncController _audioTimeSyncController;
         private List<NpsInfo> _npsSections;
@@ -60,7 +47,7 @@ namespace SongChartVisualizer.Core
                     for (var i = 0; i < _npsSections.Count; i++)
                     {
                         var npsInfos = _npsSections[i];
-                        // Plugin.Log.Debug($"Nps at section {i + 1}: {npsInfos.nps} (from [{npsInfos.fromTime}] to [{npsInfos.toTime}])");
+                        // Plugin.Log.Debug($"Nps at section {i + 1}: {npsInfos.Nps} (from [{npsInfos.FromTime}] to [{npsInfos.ToTime}])");
                     }
                     // Plugin.Log.Debug("Loading assetbundle..");
                     var assembly = Assembly.GetExecutingAssembly();
@@ -79,17 +66,17 @@ namespace SongChartVisualizer.Core
                         _windowGraph = go.AddComponent<WindowGraph>();
                         _windowGraph.circleSprite = sprite;
                         _windowGraph.transform.localScale /= 10;
-                        var npsValues = _npsSections.Select(info => info.nps).ToList();
+                        var npsValues = _npsSections.Select(info => info.Nps).ToList();
                         _windowGraph.ShowGraph(npsValues, false);
                         _currentSectionIdx = 0;
                         _currentSection = _npsSections[_currentSectionIdx];
-                        var highestValue = _npsSections.Max(info => info.nps);
-                        _hardestSectionIdx = _npsSections.FindIndex(info => Math.Abs(info.nps - highestValue) < 0.001f);
+                        var highestValue = _npsSections.Max(info => info.Nps);
+                        _hardestSectionIdx = _npsSections.FindIndex(info => Math.Abs(info.Nps - highestValue) < 0.001f);
                         PrepareWarningText();
                         CreateSelfCursor(Color.green);
                         _canvas.enabled = PluginConfig.Instance.PeakWarning && _currentSectionIdx + 1 == _hardestSectionIdx;
                         if (_canvas.enabled)
-                            FadeInText(_text, _currentSection.toTime * 0.2f);
+                            FadeInText(_text, _currentSection.ToTime * 0.2f);
                         _isInitialized = true;
                     }
                 }
@@ -144,7 +131,7 @@ namespace SongChartVisualizer.Core
         {
             if (_audioTimeSyncController && _isInitialized && !_isFinished)
             {
-                if (_currentSection.toTime < _audioTimeSyncController.songTime)
+                if (_currentSection.ToTime < _audioTimeSyncController.songTime)
                 {
                     _currentSectionIdx += 1;
                     var oldState = _canvas.enabled;
@@ -156,15 +143,15 @@ namespace SongChartVisualizer.Core
                     }
                     _currentSection = _npsSections[_currentSectionIdx];
                     if (PluginConfig.Instance.PeakWarning && !oldState && _canvas && _canvas.enabled)
-                        FadeInText(_text, (_currentSection.toTime - _audioTimeSyncController.songTime) * 0.2f);
+                        FadeInText(_text, (_currentSection.ToTime - _audioTimeSyncController.songTime) * 0.2f);
                 }
                 var dotPos = Vector3.Lerp(_windowGraph.DotObjects[_currentSectionIdx].GetComponent<RectTransform>().position,
                                           _windowGraph.DotObjects[_currentSectionIdx + 1].GetComponent<RectTransform>().position,
-                                          (_audioTimeSyncController.songTime - _currentSection.fromTime) / (_currentSection.toTime - _currentSection.fromTime));
+                                          (_audioTimeSyncController.songTime - _currentSection.FromTime) / (_currentSection.ToTime - _currentSection.FromTime));
                 dotPos.z -= 0.001f;
                 _selfCursor.transform.position = dotPos;
                 if (PluginConfig.Instance.PeakWarning && _canvas && _canvas.enabled)
-                    _text.text = $"You're about to reach the peak difficulty in <color=#ffa500ff>{_currentSection.toTime - _audioTimeSyncController.songTime:F1}</color> seconds!";
+                    _text.text = $"You're about to reach the peak difficulty in <color=#ffa500ff>{_currentSection.ToTime - _audioTimeSyncController.songTime:F1}</color> seconds!";
             }
         }
 
@@ -176,7 +163,7 @@ namespace SongChartVisualizer.Core
             var notes = new List<BeatmapObjectData>();
 
             notes = _beatmapData.beatmapLinesData.Aggregate(notes, (current, beatmapLineData) => current.Concat(beatmapLineData.beatmapObjectsData)
-                                                                                                        .Where(data => data.beatmapObjectType == BeatmapObjectType.Note && ((NoteData)data).noteType != NoteType.Bomb).ToList());
+                                                                                                        .Where(data => data.beatmapObjectType == BeatmapObjectType.Note && ((NoteData)data).noteType != BeatmapSaveData.NoteType.Bomb).ToList());
             notes.Sort((s1, s2) => s1.time.CompareTo(s2.time));
 
             if (notes.Count > 0)
