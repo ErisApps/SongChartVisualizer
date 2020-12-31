@@ -1,11 +1,14 @@
 ﻿using System.Collections;
+using System.Reflection;
 using BeatSaberMarkupLanguage;
 using BeatSaberMarkupLanguage.FloatingScreen;
 using BeatSaberMarkupLanguage.Settings;
-using BS_Utils.Utilities;
 using IPA;
 using IPA.Config.Stores;
+using IPA.Loader;
+using SiraUtil.Zenject;
 using SongChartVisualizer.Core;
+using SongChartVisualizer.Installers;
 using SongChartVisualizer.Models;
 using SongChartVisualizer.UI.ViewControllers;
 using SongChartVisualizer.Utilities;
@@ -16,32 +19,22 @@ using Logger = IPA.Logging.Logger;
 
 namespace SongChartVisualizer
 {
-    [Plugin(RuntimeOptions.SingleStartInit)]
+    [Plugin(RuntimeOptions.DynamicInit)]
     public class Plugin
     {
-        #region Properties
-
-        public static Logger Log { get; private set; }
-
-        #endregion
-
-        #region BSIPA Events
-
-        [Init]
-        public Plugin(Logger logger, Config conf)
+	    [Init]
+        public Plugin(Logger logger, Config config, PluginMetadata metadata, Zenjector zenject)
         {
-            Log = logger;
-            PluginConfig.Instance = conf.Generated<PluginConfig>();
+            PluginConfig.Instance = config.Generated<PluginConfig>();
+
+            zenject.OnApp<ScvAppInstaller>().WithParameters(logger, config.Generated<PluginConfig>(), metadata.Name ?? Assembly.GetExecutingAssembly().GetName().Name);
         }
 
-        [OnStart]
-        public void OnApplicationStart()
+        [OnEnable, OnDisable]
+        public void OnStateChanged()
         {
-            BSEvents.menuSceneLoadedFresh += OnMenuSceneLoadedFresh;
-            BSEvents.gameSceneLoaded += OnGameSceneActive;
+	        // Zenject is poggers
         }
-
-        #endregion
 
         #region Events
 

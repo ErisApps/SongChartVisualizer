@@ -60,14 +60,14 @@ namespace SongChartVisualizer.Core
                     for (var i = 0; i < _npsSections.Count; i++)
                     {
                         var npsInfos = _npsSections[i];
-                        Plugin.Log.Debug($"Nps at section {i + 1}: {npsInfos.nps} (from [{npsInfos.fromTime}] to [{npsInfos.toTime}])");
+                        // Plugin.Log.Debug($"Nps at section {i + 1}: {npsInfos.nps} (from [{npsInfos.fromTime}] to [{npsInfos.toTime}])");
                     }
-                    Plugin.Log.Debug("Loading assetbundle..");
+                    // Plugin.Log.Debug("Loading assetbundle..");
                     var assembly = Assembly.GetExecutingAssembly();
                     using (var stream = assembly.GetManifestResourceStream("SongChartVisualizer.UI.linegraph"))
                         _assetBundle = AssetBundle.LoadFromStream(stream);
                     if (!_assetBundle)
-                        Plugin.Log.Warn("Failed to load AssetBundle! The chart may not work properly..");
+                        // Plugin.Log.Warn("Failed to load AssetBundle! The chart may not work properly..");
                     else
                     {
                         var prefab = _assetBundle.LoadAsset<GameObject>("LineGraph");
