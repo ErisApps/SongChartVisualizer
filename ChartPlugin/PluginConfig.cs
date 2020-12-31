@@ -9,9 +9,7 @@ namespace SongChartVisualizer
 {
     internal class PluginConfig
     {
-        public static PluginConfig Instance { get; set; }
-
-        public bool EnablePlugin { get; set; } = true;
+	    public bool EnablePlugin { get; set; } = true;
         public bool PeakWarning { get; set; } = true;
 
         [Ignore]
