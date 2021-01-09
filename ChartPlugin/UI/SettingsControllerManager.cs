@@ -10,7 +10,7 @@ namespace SongChartVisualizer.UI
 		private readonly string _name;
 		private SettingsController? _settingsHost;
 
-		public SettingsControllerManager(SettingsController settingsHost, [Inject(Id = "svcModName")] string name)
+		public SettingsControllerManager(SettingsController settingsHost, [Inject(Id = "scvModName")] string name)
 		{
 			_settingsHost = settingsHost;
 			_name = name;

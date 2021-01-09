@@ -18,7 +18,7 @@ namespace SongChartVisualizer.Installers
 		}
 		public override void InstallBindings()
 		{
-			Container.BindInstance(_name).WithId("svcModName");
+			Container.BindInstance(_name).WithId("scvModName");
 
 			Container.BindLoggerAsSiraLogger(_logger);
 

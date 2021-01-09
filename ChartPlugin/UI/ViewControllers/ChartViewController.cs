@@ -48,7 +48,7 @@ namespace SongChartVisualizer.UI.ViewControllers
 		private bool _isFinished;
 
 		[Inject]
-		internal void Construct(SiraLog siraLog, PluginConfig config, [Inject(Id = "svcModName")] string modName, AudioTimeSyncController audioTimeSyncController,
+		internal void Construct(SiraLog siraLog, PluginConfig config, [Inject(Id = "scvModName")] string modName, AudioTimeSyncController audioTimeSyncController,
 			GameplayCoreSceneSetupData gameplayCoreSceneSetupData)
 		{
 			_siraLog = siraLog;
