@@ -1,5 +1,6 @@
 ﻿using IPA.Logging;
 using SiraUtil;
+using SongChartVisualizer.Services;
 using Zenject;
 
 namespace SongChartVisualizer.Installers
@@ -16,6 +17,7 @@ namespace SongChartVisualizer.Installers
 			_config = config;
 			_name = name;
 		}
+
 		public override void InstallBindings()
 		{
 			Container.BindInstance(_name).WithId("scvModName");
@@ -23,6 +25,7 @@ namespace SongChartVisualizer.Installers
 			Container.BindLoggerAsSiraLogger(_logger);
 
 			Container.BindInstance(_config).AsSingle();
+			Container.BindInterfacesAndSelfTo<ScvAssetLoader>().AsSingle().Lazy();
 		}
 	}
 }

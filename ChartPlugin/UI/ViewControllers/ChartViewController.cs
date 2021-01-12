@@ -11,6 +11,7 @@ using HMUI;
 using SiraUtil.Tools;
 using SongChartVisualizer.Core;
 using SongChartVisualizer.Models;
+using SongChartVisualizer.Services;
 using TMPro;
 using UnityEngine;
 using Zenject;
@@ -24,6 +25,7 @@ namespace SongChartVisualizer.UI.ViewControllers
 		private SiraLog _siraLog = null!;
 		private PluginConfig _config = null!;
 		private string _modName = null!;
+		private ScvAssetLoader _assetLoader = null!;
 
 		private AudioTimeSyncController _audioTimeSyncController = null!;
 		private GameplayCoreSceneSetupData _gameplayCoreSceneSetupData = null!;
@@ -48,14 +50,17 @@ namespace SongChartVisualizer.UI.ViewControllers
 		private bool _isFinished;
 
 		[Inject]
-		internal void Construct(SiraLog siraLog, PluginConfig config, [Inject(Id = "scvModName")] string modName, AudioTimeSyncController audioTimeSyncController,
+		internal void Construct(SiraLog siraLog, PluginConfig config, [Inject(Id = "scvModName")] string modName, ScvAssetLoader assetLoader, AudioTimeSyncController audioTimeSyncController,
 			GameplayCoreSceneSetupData gameplayCoreSceneSetupData)
 		{
+			_assetLoader = assetLoader;
 			_siraLog = siraLog;
 			_config = config;
 			_modName = modName;
 			_audioTimeSyncController = audioTimeSyncController;
 			_gameplayCoreSceneSetupData = gameplayCoreSceneSetupData;
+
+			name = $"{_modName} View";
 		}
 
 		public void Initialize()
@@ -65,10 +70,19 @@ namespace SongChartVisualizer.UI.ViewControllers
 			var rot = is360Level
 				? Quaternion.Euler(_config.Chart360LevelRotation)
 				: Quaternion.Euler(_config.ChartStandardLevelRotation);
-			_floatingScreen = FloatingScreen.CreateFloatingScreen(_config.ChartSize, false, pos, rot, curvatureRadius: 0f, hasBackground: false);
+			_floatingScreen = FloatingScreen.CreateFloatingScreen(_config.ChartSize, false, pos, rot, curvatureRadius: 0f, hasBackground: _config.HasBackground);
 			_floatingScreen.SetRootViewController(this, AnimationType.None);
 			_floatingScreen.name = _modName;
-			name = $"{_modName} View";
+
+			if (_config.HasBackground)
+			{
+				var imageView = _floatingScreen.GetComponentInChildren<ImageView>();
+				imageView.material = _assetLoader.UINoGlowMaterial;
+				imageView.material.color = _config.CombinedBackgroundColor;
+				imageView.color = _config.CombinedBackgroundColor;
+
+				transform.SetParent(imageView.transform);
+			}
 
 			_beatmapData = _gameplayCoreSceneSetupData.difficultyBeatmap?.beatmapData;
 			if (_beatmapData == null)
@@ -113,12 +127,12 @@ namespace SongChartVisualizer.UI.ViewControllers
 				_windowGraph.circleSprite = sprite;
 				_windowGraph.transform.localScale /= 10;
 				var npsValues = _npsSections.Select(info => info.Nps).ToList();
-				_windowGraph.ShowGraph(npsValues, false);
+				_windowGraph.ShowGraph(npsValues, false, linkColor: _config.LineColor);
 
 				_currentSectionIdx = 0;
 				_currentSection = _npsSections[_currentSectionIdx];
 
-				CreateSelfCursor(Color.green);
+				CreateSelfCursor(_config.PointerColor);
 
 				if (_config.PeakWarning)
 				{

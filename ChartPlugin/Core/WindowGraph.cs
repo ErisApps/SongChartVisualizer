@@ -13,6 +13,7 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using HMUI;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -20,6 +21,8 @@ namespace SongChartVisualizer.Core
 {
 	public class WindowGraph : MonoBehaviour
 	{
+		private static readonly Color _defaultLinkColor = new Color(1, 1, 1, .5f);
+
 		private RectTransform? _labelTemplateX;
 		private RectTransform? _labelTemplateY;
 		private RectTransform? _dashTemplateX;
@@ -52,7 +55,7 @@ namespace SongChartVisualizer.Core
 		}
 
 		public void ShowGraph(List<float> valueList, bool makeDotsVisible = true, bool makeLinksVisible = true, bool makeOriginZero = false, int maxVisibleValueAmount = -1,
-			Func<float, string>? getAxisLabelX = null, Func<float, string>? getAxisLabelY = null)
+			Func<float, string>? getAxisLabelX = null, Func<float, string>? getAxisLabelY = null, Color? linkColor = null)
 		{
 			getAxisLabelX ??= i => i.ToString(CultureInfo.InvariantCulture);
 
@@ -160,6 +163,8 @@ namespace SongChartVisualizer.Core
 			var xSize = graphWidth / (maxVisibleValueAmount + 1);
 			var xIndex = 0;
 
+			linkColor = linkColor == null ? _defaultLinkColor : new Color(linkColor.Value.r, linkColor.Value.g, linkColor.Value.b, .5f);
+
 			GameObject? lastCircleGameObject = null;
 			for (var i = Mathf.Max(valueList.Count - maxVisibleValueAmount, 0); i < valueList.Count; i++)
 			{
@@ -171,7 +176,8 @@ namespace SongChartVisualizer.Core
 				{
 					var dotConnectionGameObject = CreateDotConnection(lastCircleGameObject.GetComponent<RectTransform>().anchoredPosition,
 						circleGameObject.GetComponent<RectTransform>().anchoredPosition,
-						makeLinksVisible);
+						makeLinksVisible,
+						linkColor.Value);
 					LinkObjects.Add(dotConnectionGameObject);
 				}
 
@@ -214,9 +220,9 @@ namespace SongChartVisualizer.Core
 
 		private GameObject CreateCircle(Vector2 anchoredPosition, bool makeDotsVisible)
 		{
-			var go = new GameObject("Circle", typeof(Image));
+			var go = new GameObject("Circle", typeof(ImageView));
 			go.transform.SetParent(GraphContainer, false);
-			var image = go.GetComponent<Image>();
+			var image = go.GetComponent<ImageView>();
 			image.sprite = circleSprite;
 			image.useSpriteMesh = true;
 			image.enabled = makeDotsVisible;
@@ -230,13 +236,13 @@ namespace SongChartVisualizer.Core
 			return go;
 		}
 
-		private GameObject CreateDotConnection(Vector2 dotPositionA, Vector2 dotPositionB, bool makeLinkVisible)
+		private GameObject CreateDotConnection(Vector2 dotPositionA, Vector2 dotPositionB, bool makeLinkVisible, Color linkColor)
 		{
-			var go = new GameObject("DotConnection", typeof(Image));
+			var go = new GameObject("DotConnection", typeof(ImageView));
 			go.transform.SetParent(GraphContainer, false);
 
-			var image = go.GetComponent<Image>();
-			image.color = new Color(1, 1, 1, .5f);
+			var image = go.GetComponent<ImageView>();
+			image.color = linkColor;
 			image.enabled = makeLinkVisible;
 
 			var rectTransform = go.GetComponent<RectTransform>();
