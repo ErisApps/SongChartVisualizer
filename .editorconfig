@@ -171,3 +171,4 @@ csharp_space_after_dot = false
 # Wrapping preferences
 csharp_preserve_single_line_statements = false
 csharp_preserve_single_line_blocks = true
+resharper_wrap_array_initializer_style = chop_if_long
