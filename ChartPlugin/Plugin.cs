@@ -9,21 +9,21 @@ using Logger = IPA.Logging.Logger;
 
 namespace SongChartVisualizer
 {
-    [Plugin(RuntimeOptions.DynamicInit)]
-    public class Plugin
-    {
-	    [Init]
-        public Plugin(Logger logger, Config config, PluginMetadata metadata, Zenjector zenject)
-        {
-	        zenject.OnApp<ScvAppInstaller>().WithParameters(logger, config.Generated<PluginConfig>(), metadata.Name ?? Assembly.GetExecutingAssembly().GetName().Name);
-            zenject.OnMenu<SvcMenuInstaller>();
-            zenject.OnGame<SvcGameInstaller>(false).ShortCircuitForTutorial();
-        }
+	[Plugin(RuntimeOptions.DynamicInit)]
+	public class Plugin
+	{
+		[Init]
+		public Plugin(Logger logger, Config config, PluginMetadata metadata, Zenjector zenject)
+		{
+			zenject.OnApp<ScvAppInstaller>().WithParameters(logger, config.Generated<PluginConfig>(), metadata.Name ?? Assembly.GetExecutingAssembly().GetName().Name);
+			zenject.OnMenu<SvcMenuInstaller>();
+			zenject.OnGame<SvcGameInstaller>(false).ShortCircuitForTutorial();
+		}
 
-        [OnEnable, OnDisable]
-        public void OnStateChanged()
-        {
-	        // Zenject is poggers
-        }
-    }
+		[OnEnable, OnDisable]
+		public void OnStateChanged()
+		{
+			// Zenject is poggers
+		}
+	}
 }
