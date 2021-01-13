@@ -1,5 +1,5 @@
 ﻿<scrollable-settings-container xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
-							   xsi:schemaLocation='https://monkeymanboy.github.io/BSML-Docs/ https://raw.githubusercontent.com/monkeymanboy/BSML-Docs/gh-pages/BSMLSchema.xsd'>
+							   xsi:noNamespaceSchemaLocation='https://raw.githubusercontent.com/monkeymanboy/BSML-Docs/gh-pages/BSMLSchema.xsd'>
 	<bool-setting text='Enabled' value='enabled-bool'/>
 	<horizontal pref-width='90'>
 		<text text='Standard panel position:' font-size='5'/>
@@ -71,4 +71,10 @@
 	</horizontal>
 	<bool-setting text='Show peak difficulty warning' value='peak-warning-bool'
 				  hover-hint="Shows the warning text in-game when you're about to reach the peak difficulty of the song."/>
+	<bool-setting text="Chart has a background color" value="show-background-bool" apply-on-change="true"/>
+	<slider-setting text="Background opacity" hover-hint="Show opaque should the background be? Setting it to 0 will make it fully clear."
+					min="0" max="1" value="background-opacity-float" formatter="background-opacity-formatter" apply-on-change="true"/>
+	<color-setting text="The color of the background" value="background-color" apply-on-change="true"/>
+	<color-setting text="The color of the line in the chart" value="line-color" apply-on-change="true"/>
+	<color-setting text="The color of the dot in the chart" value="pointer-color" apply-on-change="true"/>
 </scrollable-settings-container>
