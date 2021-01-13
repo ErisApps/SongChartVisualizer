@@ -99,11 +99,13 @@ namespace SongChartVisualizer.UI.ViewControllers
 			}
 
 			_npsSections = GetNpsSections();
+#if DEBUG
 			for (var i = 0; i < _npsSections.Count; i++)
 			{
 				var npsInfos = _npsSections[i];
 				_siraLog.Debug($"Nps at section {i + 1}: {npsInfos.Nps} (from [{npsInfos.FromTime}] to [{npsInfos.ToTime}])");
 			}
+#endif
 
 			_siraLog.Debug("Loading assetbundle..");
 			var assembly = Assembly.GetExecutingAssembly();
