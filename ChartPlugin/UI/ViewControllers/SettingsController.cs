@@ -222,6 +222,7 @@ namespace SongChartVisualizer.UI.ViewControllers
 		[UIAction("#apply")]
 		public void OnApply()
 		{
+			using var changeHandle = _configuration.ChangeTransaction();
 			_configuration.ChartStandardLevelPosition = _stdPos;
 			_configuration.ChartStandardLevelRotation = _stdRot;
 			_configuration.Chart360LevelPosition = _noStdPos;

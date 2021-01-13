@@ -1,4 +1,5 @@
-﻿using System.Runtime.CompilerServices;
+﻿using System;
+using System.Runtime.CompilerServices;
 using IPA.Config.Stores;
 using IPA.Config.Stores.Attributes;
 using IPA.Config.Stores.Converters;
@@ -42,5 +43,7 @@ namespace SongChartVisualizer
 
 		[UseConverter(typeof(HexColorConverter))]
 		public Color PointerColor { get; set; } = Color.green;
+
+		public virtual IDisposable ChangeTransaction() => null!;
 	}
 }
