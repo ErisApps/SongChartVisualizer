@@ -78,7 +78,6 @@ namespace SongChartVisualizer.UI.ViewControllers
 			{
 				var imageView = _floatingScreen.GetComponentInChildren<ImageView>();
 				imageView.material = _assetLoader.UINoGlowMaterial;
-				imageView.material.color = _config.CombinedBackgroundColor;
 				imageView.color = _config.CombinedBackgroundColor;
 
 				transform.SetParent(imageView.transform);
