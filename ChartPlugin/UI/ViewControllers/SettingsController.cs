@@ -1,160 +1,246 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using BeatSaberMarkupLanguage.Attributes;
-using BeatSaberMarkupLanguage.Parser;
-using SongChartVisualizer.Models;
 using UnityEngine;
 
 namespace SongChartVisualizer.UI.ViewControllers
 {
-    public class SettingsController : PersistentSingleton<SettingsController>
-    {
-        [UIParams]
-        private BSMLParserParams parserParams;
+	internal class SettingsController
+	{
+		private readonly PluginConfig _configuration;
 
-        private Float3 _stdPos = new Float3();
-        private Float3 _stdRot = new Float3();
-        private Float3 _noStdPos = new Float3();
-        private Float3 _noStdRot = new Float3();
+		internal SettingsController(PluginConfig configuration)
+		{
+			_configuration = configuration;
+		}
 
-        [UIValue("enabled-bool")]
-        public bool enabledValue
-        {
-            get => PluginConfig.Instance.EnablePlugin;
-            set => PluginConfig.Instance.EnablePlugin = value;
-        }
+		private Vector3 _stdPos;
+		private Vector3 _stdRot;
+		private Vector3 _noStdPos;
+		private Vector3 _noStdRot;
 
-        [UIValue("peak-warning-bool")]
-        public bool peakWarningValue
-        {
-            get => PluginConfig.Instance.PeakWarning;
-            set => PluginConfig.Instance.PeakWarning = value;
-        }
+		[UIValue("enabled-bool")]
+		internal bool EnabledValue
+		{
+			get => _configuration.EnablePlugin;
+			set => _configuration.EnablePlugin = value;
+		}
 
-        [UIValue("std-panel-x-pos-float")]
-        public float stdPanelXPosValue
-        {
-            get => PluginConfig.Instance.ChartStandardLevelPosition.x;
-            set => _stdPos = new Float3(value, _stdPos.y, _stdPos.z);
-        }
+		[UIValue("peak-warning-bool")]
+		internal bool PeakWarningValue
+		{
+			get => _configuration.PeakWarning;
+			set => _configuration.PeakWarning = value;
+		}
 
-        [UIValue("std-panel-y-pos-float")]
-        public float stdPanelYPosValue
-        {
-            get => PluginConfig.Instance.ChartStandardLevelPosition.y;
-            set => _stdPos = new Float3(_stdPos.x, value, _stdPos.z);
-        }
+		[UIValue("std-panel-x-pos-float")]
+		internal float StdPanelXPosValue
+		{
+			get => _configuration.ChartStandardLevelPosition.x;
+			set => _stdPos = new Vector3(value, _stdPos.y, _stdPos.z);
+		}
 
-        [UIValue("std-panel-z-pos-float")]
-        public float stdPanelZPosValue
-        {
-            get => PluginConfig.Instance.ChartStandardLevelPosition.z;
-            set => _stdPos = new Float3(_stdPos.x, _stdPos.y, value);
-        }
+		[UIValue("std-panel-y-pos-float")]
+		internal float StdPanelYPosValue
+		{
+			get => _configuration.ChartStandardLevelPosition.y;
+			set => _stdPos = new Vector3(_stdPos.x, value, _stdPos.z);
+		}
 
-        [UIValue("std-panel-x-rot-float")]
-        public float stdPanelXRotValue
-        {
-            get => PluginConfig.Instance.ChartStandardLevelRotation.x;
-            set => _stdRot = new Float3(value, _stdRot.y, _stdRot.z);
-        }
+		[UIValue("std-panel-z-pos-float")]
+		internal float StdPanelZPosValue
+		{
+			get => _configuration.ChartStandardLevelPosition.z;
+			set => _stdPos = new Vector3(_stdPos.x, _stdPos.y, value);
+		}
 
-        [UIValue("std-panel-y-rot-float")]
-        public float stdPanelYRotValue
-        {
-            get => PluginConfig.Instance.ChartStandardLevelRotation.y;
-            set => _stdRot = new Float3(_stdRot.x, value, _stdRot.z);
-        }
+		[UIValue("std-panel-x-rot-float")]
+		internal float StdPanelXRotValue
+		{
+			get => _configuration.ChartStandardLevelRotation.x;
+			set => _stdRot = new Vector3(value, _stdRot.y, _stdRot.z);
+		}
 
-        [UIValue("std-panel-z-rot-float")]
-        public float stdPanelZRotValue
-        {
-            get => PluginConfig.Instance.ChartStandardLevelRotation.z;
-            set => _stdRot = new Float3(_stdRot.x, _stdRot.y, value);
-        }
+		[UIValue("std-panel-y-rot-float")]
+		internal float StdPanelYRotValue
+		{
+			get => _configuration.ChartStandardLevelRotation.y;
+			set => _stdRot = new Vector3(_stdRot.x, value, _stdRot.z);
+		}
 
-        [UIValue("no-std-panel-x-pos-float")]
-        public float noStdPanelXPosValue
-        {
-            get => PluginConfig.Instance.Chart360LevelPosition.x;
-            set => _noStdPos = new Float3(value, _noStdPos.y, _noStdPos.z);
-        }
+		[UIValue("std-panel-z-rot-float")]
+		internal float StdPanelZRotValue
+		{
+			get => _configuration.ChartStandardLevelRotation.z;
+			set => _stdRot = new Vector3(_stdRot.x, _stdRot.y, value);
+		}
 
-        [UIValue("no-std-panel-y-pos-float")]
-        public float noStdPanelYPosValue
-        {
-            get => PluginConfig.Instance.Chart360LevelPosition.y;
-            set => _noStdPos = new Float3(_noStdPos.x, value, _noStdPos.z);
-        }
+		[UIValue("no-std-panel-x-pos-float")]
+		internal float NoStdPanelXPosValue
+		{
+			get => _configuration.Chart360LevelPosition.x;
+			set => _noStdPos = new Vector3(value, _noStdPos.y, _noStdPos.z);
+		}
 
-        [UIValue("no-std-panel-z-pos-float")]
-        public float noStdPanelZPosValue
-        {
-            get => PluginConfig.Instance.Chart360LevelPosition.z;
-            set => _noStdPos = new Float3(_noStdPos.x, _noStdPos.y, value);
-        }
+		[UIValue("no-std-panel-y-pos-float")]
+		internal float NoStdPanelYPosValue
+		{
+			get => _configuration.Chart360LevelPosition.y;
+			set => _noStdPos = new Vector3(_noStdPos.x, value, _noStdPos.z);
+		}
 
-        [UIValue("no-std-panel-x-rot-float")]
-        public float noStdPanelXRotValue
-        {
-            get => PluginConfig.Instance.Chart360LevelRotation.x;
-            set => _noStdRot = new Float3(value, _noStdRot.y, _noStdRot.z);
-        }
+		[UIValue("no-std-panel-z-pos-float")]
+		internal float NoStdPanelZPosValue
+		{
+			get => _configuration.Chart360LevelPosition.z;
+			set => _noStdPos = new Vector3(_noStdPos.x, _noStdPos.y, value);
+		}
 
-        [UIValue("no-std-panel-y-rot-float")]
-        public float noStdPanelYRotValue
-        {
-            get => PluginConfig.Instance.Chart360LevelRotation.y;
-            set => _noStdRot = new Float3(_noStdRot.x, value, _noStdRot.z);
-        }
+		[UIValue("no-std-panel-x-rot-float")]
+		internal float NoStdPanelXRotValue
+		{
+			get => _configuration.Chart360LevelRotation.x;
+			set => _noStdRot = new Vector3(value, _noStdRot.y, _noStdRot.z);
+		}
 
-        [UIValue("no-std-panel-z-rot-float")]
-        public float noStdPanelZRotValue
-        {
-            get => PluginConfig.Instance.Chart360LevelRotation.z;
-            set => _noStdRot = new Float3(_noStdRot.x, _noStdRot.y, value);
-        }
+		[UIValue("no-std-panel-y-rot-float")]
+		internal float NoStdPanelYRotValue
+		{
+			get => _configuration.Chart360LevelRotation.y;
+			set => _noStdRot = new Vector3(_noStdRot.x, value, _noStdRot.z);
+		}
 
-        [UIObject("std-pos-x-field")] public GameObject stdPosXField;
-        [UIObject("std-pos-y-field")] public GameObject stdPosYField;
-        [UIObject("std-pos-z-field")] public GameObject stdPosZField;
-        [UIObject("std-rot-x-field")] public GameObject stdRotXField;
-        [UIObject("std-rot-y-field")] public GameObject stdRotYField;
-        [UIObject("std-rot-z-field")] public GameObject stdRotZField;
-        [UIObject("no-std-pos-x-field")] public GameObject noStdPosXField;
-        [UIObject("no-std-pos-y-field")] public GameObject noStdPosYField;
-        [UIObject("no-std-pos-z-field")] public GameObject noStdPosZField;
-        [UIObject("no-std-rot-x-field")] public GameObject noStdRotXField;
-        [UIObject("no-std-rot-y-field")] public GameObject noStdRotYField;
-        [UIObject("no-std-rot-z-field")] public GameObject noStdRotZField;
+		[UIValue("no-std-panel-z-rot-float")]
+		internal float NoStdPanelZRotValue
+		{
+			get => _configuration.Chart360LevelRotation.z;
+			set => _noStdRot = new Vector3(_noStdRot.x, _noStdRot.y, value);
+		}
 
-        private static void ResizeValuePicker(GameObject go)
-        {
-            if (go == null) return;
-            var rectPicker = go.transform.Find("ValuePicker")?.GetComponent<RectTransform>();
-            if (rectPicker)
-                rectPicker.sizeDelta = new Vector2(25, rectPicker.sizeDelta.y);
-        }
+		[UIObject("std-pos-x-field")]
+		internal GameObject StdPosXField = null!;
 
-        [UIAction("#post-parse")]
-        internal void Setup()
-        {
-            var list = new List<GameObject> {
-                stdPosXField, stdPosYField, stdPosZField, stdRotXField, stdRotYField, stdRotZField,
-                noStdPosXField, noStdPosYField, noStdPosZField, noStdRotXField, noStdRotYField, noStdRotZField
-            };
-            foreach (var go in list)
-                ResizeValuePicker(go);
-        }
+		[UIObject("std-pos-y-field")]
+		internal GameObject StdPosYField = null!;
 
-        [UIAction("#apply")]
-        public void OnApply()
-        {
-            PluginConfig.Instance.EnablePlugin = enabledValue;
-            PluginConfig.Instance.PeakWarning = peakWarningValue;
-            PluginConfig.Instance.ChartStandardLevelPosition = _stdPos;
-            PluginConfig.Instance.ChartStandardLevelRotation = _stdRot;
-            PluginConfig.Instance.Chart360LevelPosition = _noStdPos;
-            PluginConfig.Instance.Chart360LevelRotation = _noStdRot;
-        }
-    }
+		[UIObject("std-pos-z-field")]
+		internal GameObject StdPosZField = null!;
+
+		[UIObject("std-rot-x-field")]
+		internal GameObject StdRotXField = null!;
+
+		[UIObject("std-rot-y-field")]
+		internal GameObject StdRotYField = null!;
+
+		[UIObject("std-rot-z-field")]
+		internal GameObject StdRotZField = null!;
+
+		[UIObject("no-std-pos-x-field")]
+		internal GameObject NoStdPosXField = null!;
+
+		[UIObject("no-std-pos-y-field")]
+		internal GameObject NoStdPosYField = null!;
+
+		[UIObject("no-std-pos-z-field")]
+		internal GameObject NoStdPosZField = null!;
+
+		[UIObject("no-std-rot-x-field")]
+		internal GameObject NoStdRotXField = null!;
+
+		[UIObject("no-std-rot-y-field")]
+		internal GameObject NoStdRotYField = null!;
+
+		[UIObject("no-std-rot-z-field")]
+		internal GameObject NoStdRotZField = null!;
+
+		[UIValue("show-background-bool")]
+		internal bool ShowBackground
+		{
+			get => _configuration.HasBackground;
+			set => _configuration.HasBackground = value;
+		}
+
+		[UIValue("background-opacity-float")]
+		internal float BackgroundOpacity
+		{
+			get => _configuration.BackgroundOpacity;
+			set => _configuration.BackgroundOpacity = (float) Math.Round(value, 2);
+		}
+
+		[UIAction("background-opacity-formatter")]
+		internal string BackgroundOpacityFormat(float opacity)
+		{
+			return $"{(int) (opacity * 100)}%";
+		}
+
+		[UIValue("background-color")]
+		internal Color BackgroundColor
+		{
+			get => _configuration.BackgroundColor;
+			set => _configuration.BackgroundColor = value;
+		}
+
+		[UIValue("line-color")]
+		internal Color LineColor
+		{
+			get => _configuration.LineColor;
+			set => _configuration.LineColor = value;
+		}
+
+		[UIValue("pointer-color")]
+		internal Color PointerColor
+		{
+			get => _configuration.PointerColor;
+			set => _configuration.PointerColor = value;
+		}
+
+		[UIAction("#post-parse")]
+		internal void Setup()
+		{
+			var list = new List<GameObject>
+			{
+				StdPosXField,
+				StdPosYField,
+				StdPosZField,
+				StdRotXField,
+				StdRotYField,
+				StdRotZField,
+				NoStdPosXField,
+				NoStdPosYField,
+				NoStdPosZField,
+				NoStdRotXField,
+				NoStdRotYField,
+				NoStdRotZField
+			};
+
+			foreach (var go in list)
+			{
+				ResizeValuePicker(go);
+			}
+		}
+
+		[UIAction("#apply")]
+		public void OnApply()
+		{
+			using var changeHandle = _configuration.ChangeTransaction();
+			_configuration.ChartStandardLevelPosition = _stdPos;
+			_configuration.ChartStandardLevelRotation = _stdRot;
+			_configuration.Chart360LevelPosition = _noStdPos;
+			_configuration.Chart360LevelRotation = _noStdRot;
+		}
+
+		private static void ResizeValuePicker(GameObject go)
+		{
+			if (go == null)
+			{
+				return;
+			}
+
+			var rectPicker = go.transform.Find("ValuePicker")?.GetComponent<RectTransform>();
+			if (rectPicker != null)
+			{
+				rectPicker.sizeDelta = new Vector2(25, rectPicker.sizeDelta.y);
+			}
+		}
+	}
 }
