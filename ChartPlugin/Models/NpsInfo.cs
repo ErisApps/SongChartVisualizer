@@ -1,6 +1,6 @@
 ﻿namespace SongChartVisualizer.Models
 {
-	public class NpsInfo
+	internal class NpsInfo
 	{
 		public readonly float Nps;
 		public readonly float FromTime;

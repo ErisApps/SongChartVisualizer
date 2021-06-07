@@ -19,7 +19,7 @@ using UnityEngine.UI;
 
 namespace SongChartVisualizer.Core
 {
-	public class WindowGraph : MonoBehaviour
+	internal class WindowGraph : MonoBehaviour
 	{
 		private static readonly Color DefaultLinkColor = new Color(1, 1, 1, .5f);
 
