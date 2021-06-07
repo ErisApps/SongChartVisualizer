@@ -28,3 +28,7 @@ To build this project you will need to create a `ChartPlugin/SongChartVisualizer
   </PropertyGroup>
 </Project>
 ```
+
+### Credits
+Credit where credit is due:
+- [@Shoko84](https://github.com/Shoko84) for writing the original mod
