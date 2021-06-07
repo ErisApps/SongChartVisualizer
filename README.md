@@ -32,3 +32,4 @@ To build this project you will need to create a `ChartPlugin/SongChartVisualizer
 ### Credits
 Credit where credit is due:
 - [@Shoko84](https://github.com/Shoko84) for writing the original mod
+- [@MildPanda (Opzon)](https://github.com/MildPanda) for mod ideas in the original mod
