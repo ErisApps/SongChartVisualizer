@@ -11,7 +11,7 @@ namespace DigitalRuby.Tween
 		/// <summary>
 		/// The key that identifies this tween - can be null
 		/// </summary>
-		object Key { get; }
+		object? Key { get; }
 
 		/// <summary>
 		/// Gets the current state of the tween.

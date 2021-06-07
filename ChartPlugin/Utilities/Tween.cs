@@ -32,7 +32,7 @@ namespace DigitalRuby.Tween
 		/// <summary>
 		/// The key that identifies this tween - can be null
 		/// </summary>
-		public object Key { get; set; }
+		public object? Key { get; set; }
 
 		/// <summary>
 		/// Gets the current time of the tween.
@@ -72,12 +72,12 @@ namespace DigitalRuby.Tween
 		/// <summary>
 		/// The game object - null if none
 		/// </summary>
-		public GameObject GameObject { get; set; }
+		public GameObject? GameObject { get; set; }
 
 		/// <summary>
 		/// The renderer - null if none
 		/// </summary>
-		public Renderer Renderer { get; set; }
+		public Renderer? Renderer { get; set; }
 
 		/// <summary>
 		/// Whether to force update even if renderer is null or not visible or deactivated, default is false
