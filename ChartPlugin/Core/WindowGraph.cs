@@ -23,29 +23,23 @@ namespace SongChartVisualizer.Core
 	{
 		private static readonly Color DefaultLinkColor = new Color(1, 1, 1, .5f);
 
-		private RectTransform? _labelTemplateX;
-		private RectTransform? _labelTemplateY;
-		private RectTransform? _dashTemplateX;
-		private RectTransform? _dashTemplateY;
+		private RectTransform _labelTemplateX = null!;
+		private RectTransform _labelTemplateY = null!;
+		private RectTransform _dashTemplateX = null!;
+		private RectTransform _dashTemplateY = null!;
 
 		public Sprite? circleSprite;
 
-		public RectTransform? GraphContainer { get; private set; }
-		public List<GameObject>? DotObjects { get; private set; }
-		public List<GameObject>? LinkObjects { get; private set; }
-		public List<GameObject>? LabelXObjects { get; private set; }
-		public List<GameObject>? LabelYObjects { get; private set; }
-		public List<GameObject>? DashXObjects { get; private set; }
-		public List<GameObject>? DashYObjects { get; private set; }
+		public RectTransform GraphContainer { get; private set; } = null!;
+		public List<GameObject> DotObjects { get; }
+		public List<GameObject> LinkObjects { get; }
+		public List<GameObject> LabelXObjects { get; }
+		public List<GameObject> LabelYObjects { get; }
+		public List<GameObject> DashXObjects { get; }
+		public List<GameObject> DashYObjects { get; }
 
-		private void Awake()
+		private WindowGraph()
 		{
-			GraphContainer = transform.Find("GraphContainer").GetComponent<RectTransform>();
-			_labelTemplateX = GraphContainer.Find("LabelTemplateX").GetComponent<RectTransform>();
-			_labelTemplateY = GraphContainer.Find("LabelTemplateY").GetComponent<RectTransform>();
-			_dashTemplateX = GraphContainer.Find("DashTemplateX").GetComponent<RectTransform>();
-			_dashTemplateY = GraphContainer.Find("DashTemplateY").GetComponent<RectTransform>();
-
 			DotObjects = new List<GameObject>();
 			LinkObjects = new List<GameObject>();
 			LabelXObjects = new List<GameObject>();
@@ -54,6 +48,17 @@ namespace SongChartVisualizer.Core
 			DashYObjects = new List<GameObject>();
 		}
 
+		private void Awake()
+		{
+			GraphContainer = transform.Find("GraphContainer").GetComponent<RectTransform>();
+
+			_labelTemplateX = GraphContainer.Find("LabelTemplateX").GetComponent<RectTransform>();
+			_labelTemplateY = GraphContainer.Find("LabelTemplateY").GetComponent<RectTransform>();
+			_dashTemplateX = GraphContainer.Find("DashTemplateX").GetComponent<RectTransform>();
+			_dashTemplateY = GraphContainer.Find("DashTemplateY").GetComponent<RectTransform>();
+		}
+
+		// ReSharper disable once CognitiveComplexity
 		public void ShowGraph(List<float> valueList, bool makeDotsVisible = true, bool makeLinksVisible = true, bool makeOriginZero = false, int maxVisibleValueAmount = -1,
 			Func<float, string>? getAxisLabelX = null, Func<float, string>? getAxisLabelY = null, Color? linkColor = null)
 		{
@@ -68,9 +73,9 @@ namespace SongChartVisualizer.Core
 
 			ClearOldData();
 
-
-			var graphWidth = GraphContainer.sizeDelta.x;
-			var graphHeight = GraphContainer.sizeDelta.y;
+			var graphSizeDelta = GraphContainer.sizeDelta;
+			var graphWidth = graphSizeDelta.x;
+			var graphHeight = graphSizeDelta.y;
 
 			var yMaximum = valueList[0];
 			var yMinimum = valueList[0];
@@ -126,38 +131,38 @@ namespace SongChartVisualizer.Core
 
 				lastCircleGameObject = circleGameObject;
 
-				var labelX = Instantiate(_labelTemplateX);
-				labelX.SetParent(GraphContainer, false);
-				labelX.gameObject.SetActive(true);
+				var labelX = Instantiate(_labelTemplateX, GraphContainer, false);
+				var labelXGo = labelX.gameObject;
+				labelXGo.SetActive(true);
 				labelX.anchoredPosition = new Vector2(xPosition, -7f);
 				labelX.GetComponent<Text>().text = getAxisLabelX(i);
-				LabelXObjects.Add(labelX.gameObject);
+				LabelXObjects.Add(labelXGo);
 
-				var dashX = Instantiate(_dashTemplateX);
-				dashX.SetParent(GraphContainer, false);
-				dashX.gameObject.SetActive(true);
+				var dashX = Instantiate(_dashTemplateX, GraphContainer, false);
+				var dashXGo = dashX.gameObject;
+				dashXGo.SetActive(true);
 				dashX.anchoredPosition = new Vector2(yPosition, -3);
-				DashXObjects.Add(dashX.gameObject);
+				DashXObjects.Add(dashXGo);
 
 				xIndex++;
 			}
 
-			var separatorCount = 10;
+			const int separatorCount = 10;
 			for (var i = 0; i <= separatorCount; i++)
 			{
-				var labelY = Instantiate(_labelTemplateY);
-				labelY.SetParent(GraphContainer, false);
-				labelY.gameObject.SetActive(true);
+				var labelY = Instantiate(_labelTemplateY, GraphContainer, false);
+				var labelYGo = labelY.gameObject;
+				labelYGo.SetActive(true);
 				var normalizedValue = i * 1f / separatorCount;
 				labelY.anchoredPosition = new Vector2(-7f, normalizedValue * graphHeight);
 				labelY.GetComponent<Text>().text = getAxisLabelY(yMinimum + (normalizedValue * (yMaximum - yMinimum)));
-				LabelYObjects.Add(labelY.gameObject);
+				LabelYObjects.Add(labelYGo);
 
-				var dashY = Instantiate(_dashTemplateY);
-				dashY.SetParent(GraphContainer, false);
-				dashY.gameObject.SetActive(true);
+				var dashY = Instantiate(_dashTemplateY, GraphContainer, false);
+				var dashYGo = dashY.gameObject;
+				dashYGo.SetActive(true);
 				dashY.anchoredPosition = new Vector2(-4f, normalizedValue * graphHeight);
-				DashYObjects.Add(dashY.gameObject);
+				DashYObjects.Add(dashYGo);
 			}
 		}
 
