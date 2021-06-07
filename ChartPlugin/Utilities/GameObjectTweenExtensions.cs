@@ -7,7 +7,7 @@ namespace DigitalRuby.Tween
 	/// <summary>
 	/// Extensions for tween for game objects - unity only
 	/// </summary>
-	public static class GameObjectTweenExtensions
+	internal static class GameObjectTweenExtensions
 	{
 		/// <summary>
 		/// Start and add a float tween

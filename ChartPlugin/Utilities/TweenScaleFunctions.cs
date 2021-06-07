@@ -8,7 +8,7 @@ namespace DigitalRuby.Tween
 	/// Tween scale functions
 	/// Implementations based on http://theinstructionlimit.com/flash-style-tweeneasing-functions-in-c, which are based on http://www.robertpenner.com/easing/
 	/// </summary>
-	public static class TweenScaleFunctions
+	internal static class TweenScaleFunctions
 	{
 		private const float HALF_PI = Mathf.PI * 0.5f;
 

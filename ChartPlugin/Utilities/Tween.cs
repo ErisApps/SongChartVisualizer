@@ -19,7 +19,7 @@ namespace DigitalRuby.Tween
 	/// An implementation of a tween object.
 	/// </summary>
 	/// <typeparam name="T">The type to tween.</typeparam>
-	public class Tween<T> : ITween<T> where T : struct
+	internal class Tween<T> : ITween<T> where T : struct
 	{
 		private readonly Func<ITween<T>, T, T, float, T> _lerpFunc;
 
@@ -275,7 +275,7 @@ namespace DigitalRuby.Tween
 	/// <summary>
 	/// Object used to tween float values.
 	/// </summary>
-	public class FloatTween : Tween<float>
+	internal class FloatTween : Tween<float>
 	{
 		private static float LerpFloat(ITween<float> t, float start, float end, float progress)
 		{
@@ -293,7 +293,7 @@ namespace DigitalRuby.Tween
 	/// <summary>
 	/// Object used to tween Vector2 values.
 	/// </summary>
-	public class Vector2Tween : Tween<Vector2>
+	internal class Vector2Tween : Tween<Vector2>
 	{
 		private static Vector2 LerpVector2(ITween<Vector2> t, Vector2 start, Vector2 end, float progress)
 		{
@@ -311,7 +311,7 @@ namespace DigitalRuby.Tween
 	/// <summary>
 	/// Object used to tween Vector3 values.
 	/// </summary>
-	public class Vector3Tween : Tween<Vector3>
+	internal class Vector3Tween : Tween<Vector3>
 	{
 		private static Vector3 LerpVector3(ITween<Vector3> t, Vector3 start, Vector3 end, float progress)
 		{
@@ -329,7 +329,7 @@ namespace DigitalRuby.Tween
 	/// <summary>
 	/// Object used to tween Vector4 values.
 	/// </summary>
-	public class Vector4Tween : Tween<Vector4>
+	internal class Vector4Tween : Tween<Vector4>
 	{
 		private static Vector4 LerpVector4(ITween<Vector4> t, Vector4 start, Vector4 end, float progress)
 		{
@@ -347,7 +347,7 @@ namespace DigitalRuby.Tween
 	/// <summary>
 	/// Object used to tween Color values.
 	/// </summary>
-	public class ColorTween : Tween<Color>
+	internal class ColorTween : Tween<Color>
 	{
 		private static Color LerpColor(ITween<Color> t, Color start, Color end, float progress)
 		{
@@ -365,7 +365,7 @@ namespace DigitalRuby.Tween
 	/// <summary>
 	/// Object used to tween Quaternion values.
 	/// </summary>
-	public class QuaternionTween : Tween<Quaternion>
+	internal class QuaternionTween : Tween<Quaternion>
 	{
 		private static Quaternion LerpQuaternion(ITween<Quaternion> t, Quaternion start, Quaternion end, float progress)
 		{

@@ -5,7 +5,7 @@ namespace DigitalRuby.Tween
 	/// <summary>
 	/// State of an ITween object
 	/// </summary>
-	public enum TweenState
+	internal enum TweenState
 	{
 		/// <summary>
 		/// The tween is running.

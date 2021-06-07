@@ -5,7 +5,7 @@ namespace DigitalRuby.Tween
 	/// <summary>
 	/// The behavior to use when manually stopping a tween.
 	/// </summary>
-	public enum TweenStopBehavior
+	internal enum TweenStopBehavior
 	{
 		/// <summary>
 		/// Does not change the current value.

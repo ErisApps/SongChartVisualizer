@@ -8,7 +8,7 @@ namespace DigitalRuby.Tween
 	/// <summary>
 	/// Tween manager - do not add directly as a script, instead call the static methods in your other scripts.
 	/// </summary>
-	public class TweenFactory : MonoBehaviour
+	internal class TweenFactory : MonoBehaviour
 	{
 		private static GameObject? _root;
 		private static readonly List<ITween> Tweens = new List<ITween>();

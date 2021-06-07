@@ -6,7 +6,7 @@ namespace DigitalRuby.Tween
 	/// <summary>
 	/// Interface for a tween object.
 	/// </summary>
-	public interface ITween
+	internal interface ITween
 	{
 		/// <summary>
 		/// The key that identifies this tween - can be null
@@ -51,7 +51,7 @@ namespace DigitalRuby.Tween
 	/// Interface for a tween object that handles a specific type.
 	/// </summary>
 	/// <typeparam name="T">The type to tween.</typeparam>
-	public interface ITween<T> : ITween where T : struct
+	internal interface ITween<T> : ITween where T : struct
 	{
 		/// <summary>
 		/// Gets the current value of the tween.
