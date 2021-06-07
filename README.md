@@ -3,8 +3,16 @@ SongChartVisualizer is a small mods that shows a configurable in-game graph that
 It also has the ability to warn you when you're about to reach peak NPS. The mod can be configured in the Mod Settings.
 
 ## Installation
+This mod requires a few other mods in order to work.
+
+- BSIPA v4.1.6 or higher
+- BeatSaberMarkupLanguage v1.5.3 or higher
+- SiraUtil v2.5.5 or higher
+
 Installation is fairly simple.
-1. Grab the latest plugin release from either ModAssistant (if it's available) or the [releases page](https://github.com/ErisApps/SongChartVisualizer/releases)
+
+1. Grab the latest plugin release from BeatMods/ModAssistant (once it's available) or from the [releases page](https://github.com/ErisApps/SongChartVisualizer/releases) (once there is actually a
+   release)
 2. Drop the .dll file in the Plugins folder of your Beat Saber installation.
 3. Boot it up (or reboot)
 
