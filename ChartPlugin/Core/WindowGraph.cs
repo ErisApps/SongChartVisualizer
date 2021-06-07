@@ -66,65 +66,8 @@ namespace SongChartVisualizer.Core
 				maxVisibleValueAmount = valueList.Count;
 			}
 
-			if (DotObjects != null)
-			{
-				foreach (var go in DotObjects)
-				{
-					Destroy(go);
-				}
+			ClearOldData();
 
-				DotObjects.Clear();
-			}
-
-			if (LinkObjects != null)
-			{
-				foreach (var go in LinkObjects)
-				{
-					Destroy(go);
-				}
-
-				LinkObjects.Clear();
-			}
-
-			if (LabelXObjects != null)
-			{
-				foreach (var go in LabelXObjects)
-				{
-					Destroy(go);
-				}
-
-				LabelXObjects.Clear();
-			}
-
-			if (LabelYObjects != null)
-			{
-				foreach (var go in LabelYObjects)
-				{
-					Destroy(go);
-				}
-
-				LabelYObjects.Clear();
-			}
-
-			if (DashXObjects != null)
-			{
-				foreach (var go in DashXObjects)
-				{
-					Destroy(go);
-				}
-
-				DashXObjects.Clear();
-			}
-
-			if (DashYObjects != null)
-			{
-				foreach (var go in DashYObjects)
-				{
-					Destroy(go);
-				}
-
-				DashYObjects.Clear();
-			}
 
 			var graphWidth = GraphContainer.sizeDelta.x;
 			var graphHeight = GraphContainer.sizeDelta.y;
@@ -255,6 +198,31 @@ namespace SongChartVisualizer.Core
 			rectTransform.localEulerAngles = new Vector3(0, 0, Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg);
 
 			return go;
+		}
+
+		private void ClearOldData()
+		{
+			static void ClearGameObjectList(ICollection<GameObject>? list)
+			{
+				if (list == null)
+				{
+					return;
+				}
+
+				foreach (var go in list)
+				{
+					Destroy(go);
+				}
+
+				list.Clear();
+			}
+
+			ClearGameObjectList(DotObjects);
+			ClearGameObjectList(LinkObjects);
+			ClearGameObjectList(LabelXObjects);
+			ClearGameObjectList(LabelYObjects);
+			ClearGameObjectList(DashXObjects);
+			ClearGameObjectList(DashYObjects);
 		}
 	}
 }
