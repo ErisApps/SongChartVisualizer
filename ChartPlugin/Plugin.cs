@@ -1,11 +1,10 @@
-﻿using System.Reflection;
-using IPA;
+﻿using IPA;
+using IPA.Config;
 using IPA.Config.Stores;
 using IPA.Loader;
+using IPA.Logging;
 using SiraUtil.Zenject;
 using SongChartVisualizer.Installers;
-using Config = IPA.Config.Config;
-using Logger = IPA.Logging.Logger;
 
 namespace SongChartVisualizer
 {
@@ -15,7 +14,7 @@ namespace SongChartVisualizer
 		[Init]
 		public Plugin(Logger logger, Config config, PluginMetadata metadata, Zenjector zenject)
 		{
-			zenject.OnApp<ScvAppInstaller>().WithParameters(logger, config.Generated<PluginConfig>(), metadata.Name ?? Assembly.GetExecutingAssembly().GetName().Name);
+			zenject.OnApp<ScvAppInstaller>().WithParameters(logger, config.Generated<PluginConfig>(), metadata.Name);
 			zenject.OnMenu<SvcMenuInstaller>();
 			zenject.OnGame<SvcGameInstaller>(false).ShortCircuitForTutorial();
 		}
