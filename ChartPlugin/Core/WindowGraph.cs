@@ -21,7 +21,7 @@ namespace SongChartVisualizer.Core
 {
 	public class WindowGraph : MonoBehaviour
 	{
-		private static readonly Color _defaultLinkColor = new Color(1, 1, 1, .5f);
+		private static readonly Color DefaultLinkColor = new Color(1, 1, 1, .5f);
 
 		private RectTransform? _labelTemplateX;
 		private RectTransform? _labelTemplateY;
@@ -163,7 +163,7 @@ namespace SongChartVisualizer.Core
 			var xSize = graphWidth / (maxVisibleValueAmount + 1);
 			var xIndex = 0;
 
-			linkColor = linkColor == null ? _defaultLinkColor : new Color(linkColor.Value.r, linkColor.Value.g, linkColor.Value.b, .5f);
+			linkColor = linkColor == null ? DefaultLinkColor : new Color(linkColor.Value.r, linkColor.Value.g, linkColor.Value.b, .5f);
 
 			GameObject? lastCircleGameObject = null;
 			for (var i = Mathf.Max(valueList.Count - maxVisibleValueAmount, 0); i < valueList.Count; i++)
