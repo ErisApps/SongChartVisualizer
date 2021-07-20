@@ -1,20 +1,23 @@
 {
 	"$schema": "https://raw.githubusercontent.com/beat-saber-modding-group/BSIPA-MetadataFileSchema/master/Schema.json",
-	"author": "Shoko84",
-	"description": "Displays an in-game chart with song difficulty information!",
-	"gameVersion": "1.16.1",
 	"id": "SongChartVisualizer",
 	"name": "SongChartVisualizer",
-	"version": "1.1.1",
+	"description": "Displays an in-game chart with song difficulty information!",
+	"author": "Eris",
+	"gameVersion": "1.16.3",
+	"version": "1.1.2",
 	"dependsOn": {
-		"BSIPA": "^4.1.6",
-		"BeatSaberMarkupLanguage": "^1.5.3",
-		"SiraUtil": "^2.5.5"
+		"BSIPA": "^4.2.0",
+		"BeatSaberMarkupLanguage": "^1.5.4",
+		"SiraUtil": "^2.5.6"
 	},
 	"loadBefore": [
 		"BeatSaberPlus"
 	],
 	"conflictsWith": {
 		"BeatSaberPlus": "*"
+	},
+	"links": {
+		"project-source": "https://github.com/ErisApps/SongChartVisualizer/"
 	}
 }
