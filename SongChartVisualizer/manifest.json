@@ -1,4 +1,4 @@
-﻿{
+{
 	"$schema": "https://raw.githubusercontent.com/beat-saber-modding-group/BSIPA-MetadataFileSchema/master/Schema.json",
 	"author": "Shoko84",
 	"description": "Displays an in-game chart with song difficulty information!",
