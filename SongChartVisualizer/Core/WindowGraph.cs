@@ -147,13 +147,13 @@ namespace SongChartVisualizer.Core
 				xIndex++;
 			}
 
-			const int separatorCount = 10;
-			for (var i = 0; i <= separatorCount; i++)
+			const int SEPARATOR_COUNT = 10;
+			for (var i = 0; i <= SEPARATOR_COUNT; i++)
 			{
 				var labelY = Instantiate(_labelTemplateY, GraphContainer, false);
 				var labelYGo = labelY.gameObject;
 				labelYGo.SetActive(true);
-				var normalizedValue = i * 1f / separatorCount;
+				var normalizedValue = i * 1f / SEPARATOR_COUNT;
 				labelY.anchoredPosition = new Vector2(-7f, normalizedValue * graphHeight);
 				labelY.GetComponent<Text>().text = getAxisLabelY(yMinimum + (normalizedValue * (yMaximum - yMinimum)));
 				LabelYObjects.Add(labelYGo);
