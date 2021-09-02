@@ -173,7 +173,7 @@ namespace SongChartVisualizer.UI.ViewControllers
 				}
 			}
 
-			var dotPos = Vector3.Lerp(_windowGraph.DotObjects![_currentSectionIdx].GetComponent<RectTransform>().position,
+			var dotPos = Vector3.Lerp(_windowGraph.DotObjects[_currentSectionIdx].GetComponent<RectTransform>().position,
 				_windowGraph.DotObjects[_currentSectionIdx + 1].GetComponent<RectTransform>().position,
 				(_audioTimeSyncController.songTime - _currentSection.FromTime) / (_currentSection.ToTime - _currentSection.FromTime));
 			dotPos.z -= 0.001f;
@@ -210,7 +210,7 @@ namespace SongChartVisualizer.UI.ViewControllers
 			var rt = _selfCursor.GetComponent<RectTransform>();
 			rt.sizeDelta = new Vector2(11, 11);
 
-			var dotPos = _windowGraph.DotObjects![_currentSectionIdx].GetComponent<RectTransform>().position;
+			var dotPos = _windowGraph.DotObjects[_currentSectionIdx].GetComponent<RectTransform>().position;
 			dotPos.z -= 0.001f;
 
 			_selfCursor.transform.position = dotPos;
