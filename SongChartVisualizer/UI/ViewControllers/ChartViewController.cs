@@ -248,7 +248,20 @@ namespace SongChartVisualizer.UI.ViewControllers
 					continue;
 				}
 
-				var nps = tempNoteCount / (notes[i].time - startingTime);
+				var nps = 0f;
+				if (tempNoteCount >= 25)
+				{
+					nps = tempNoteCount / (notes[i].time - startingTime);
+				}
+				else // end of a map or a map with notes.Coint < 25
+				{
+					// if total notes count < 25 - do the usual way
+					// if there are more than 25 notes - try to normalize nps with data from tempNoteCount and (25 - tempNoteCount) notes from a section before
+					nps = notes.Count < 25
+						? tempNoteCount / (notes[i].time - notes[0].time)
+						: 25 / (notes[i].time - notes[i - 25].time);
+				}
+
 				if (!float.IsInfinity(nps))
 				{
 					npsSections.Add(new NpsInfo(nps, startingTime, notes[i].time));
