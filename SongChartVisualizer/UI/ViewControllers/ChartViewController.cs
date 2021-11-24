@@ -253,7 +253,7 @@ namespace SongChartVisualizer.UI.ViewControllers
 				{
 					nps = tempNoteCount / (notes[i].time - startingTime);
 				}
-				else // end of a map or a map with notes.Coint < 25
+				else // end of a map or a map with notes.Count < 25
 				{
 					// if total notes count < 25 - do the usual way
 					// if there are more than 25 notes - try to normalize nps with data from tempNoteCount and (25 - tempNoteCount) notes from a section before
