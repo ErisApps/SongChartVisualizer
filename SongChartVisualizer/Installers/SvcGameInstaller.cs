@@ -1,5 +1,4 @@
-﻿using SiraUtil;
-using SongChartVisualizer.UI.ViewControllers;
+﻿using SongChartVisualizer.UI.ViewControllers;
 using Zenject;
 
 namespace SongChartVisualizer.Installers

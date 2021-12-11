@@ -1,5 +1,7 @@
 ﻿using System;
 using BeatSaberMarkupLanguage.Settings;
+using IPA.Loader;
+using SiraUtil.Zenject;
 using SongChartVisualizer.UI.ViewControllers;
 using Zenject;
 
@@ -10,10 +12,10 @@ namespace SongChartVisualizer.UI
 		private readonly string _name;
 		private SettingsController? _settingsHost;
 
-		public SettingsControllerManager(SettingsController settingsHost, [Inject(Id = "scvModName")] string name)
+		public SettingsControllerManager(SettingsController settingsHost, UBinder<Plugin, PluginMetadata> pluginMetadata)
 		{
 			_settingsHost = settingsHost;
-			_name = name;
+			_name = pluginMetadata.Value.Name;
 		}
 
 		public void Initialize()

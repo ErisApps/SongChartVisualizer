@@ -8,7 +8,9 @@ using BeatSaberMarkupLanguage.FloatingScreen;
 using BeatSaberMarkupLanguage.ViewControllers;
 using DigitalRuby.Tween;
 using HMUI;
-using SiraUtil.Tools;
+using IPA.Loader;
+using SiraUtil.Logging;
+using SiraUtil.Zenject;
 using SongChartVisualizer.Core;
 using SongChartVisualizer.Models;
 using SongChartVisualizer.Services;
@@ -41,7 +43,7 @@ namespace SongChartVisualizer.UI.ViewControllers
 		private NpsInfo? _currentSection;
 		private GameObject _selfCursor = null!;
 
-		private GameObject? _peakWarningGO;
+		private GameObject? _peakWarningGo;
 		private int _hardestSectionIdx;
 		private Canvas? _canvas;
 		private TextMeshProUGUI? _text;
@@ -50,13 +52,13 @@ namespace SongChartVisualizer.UI.ViewControllers
 		private bool _isFinished;
 
 		[Inject]
-		internal void Construct(SiraLog siraLog, PluginConfig config, [Inject(Id = "scvModName")] string modName, ScvAssetLoader assetLoader, AudioTimeSyncController audioTimeSyncController,
+		internal void Construct(SiraLog siraLog, PluginConfig config, UBinder<Plugin, PluginMetadata> pluginMetadata, ScvAssetLoader assetLoader, AudioTimeSyncController audioTimeSyncController,
 			GameplayCoreSceneSetupData gameplayCoreSceneSetupData)
 		{
 			_assetLoader = assetLoader;
 			_siraLog = siraLog;
 			_config = config;
-			_modName = modName;
+			_modName = pluginMetadata.Value.Name;
 			_audioTimeSyncController = audioTimeSyncController;
 			_gameplayCoreSceneSetupData = gameplayCoreSceneSetupData;
 
@@ -115,7 +117,7 @@ namespace SongChartVisualizer.UI.ViewControllers
 
 			if (!_assetBundle)
 			{
-				_siraLog.Warning("Failed to load AssetBundle! The chart will not work properly..");
+				_siraLog.Warn("Failed to load AssetBundle! The chart will not work properly..");
 			}
 			else
 			{
@@ -216,6 +218,7 @@ namespace SongChartVisualizer.UI.ViewControllers
 			_selfCursor.transform.position = dotPos;
 		}
 
+		// ReSharper disable once CognitiveComplexity
 		private List<NpsInfo> GetNpsSections()
 		{
 			var npsSections = new List<NpsInfo>();
@@ -248,7 +251,7 @@ namespace SongChartVisualizer.UI.ViewControllers
 					continue;
 				}
 
-				var nps = 0f;
+				float nps;
 				if (tempNoteCount >= 25)
 				{
 					nps = tempNoteCount / (notes[i].time - startingTime);
@@ -278,11 +281,11 @@ namespace SongChartVisualizer.UI.ViewControllers
 
 		private void PrepareWarningText()
 		{
-			_peakWarningGO = new GameObject("DiffWarningCanvas");
-			_canvas = _peakWarningGO.AddComponent<Canvas>();
+			_peakWarningGo = new GameObject("DiffWarningCanvas");
+			_canvas = _peakWarningGo.AddComponent<Canvas>();
 			_canvas.renderMode = RenderMode.WorldSpace;
 
-			_peakWarningGO.AddComponent<CurvedCanvasSettings>().SetRadius(0f);
+			_peakWarningGo.AddComponent<CurvedCanvasSettings>().SetRadius(0f);
 
 			var ct = _canvas.transform;
 			ct.position = new Vector3(0, 2.25f, 3.5f);
@@ -298,19 +301,19 @@ namespace SongChartVisualizer.UI.ViewControllers
 				_text.alpha = 0f;
 			}
 
-			_peakWarningGO.SetActive(false);
+			_peakWarningGo.SetActive(false);
 		}
 
 		private void FadeInTextIfNeeded()
 		{
-			var oldState = _peakWarningGO!.activeSelf;
+			var oldState = _peakWarningGo!.activeSelf;
 			var newState = _config.PeakWarning && _currentSectionIdx + 1 == _hardestSectionIdx;
 			if (oldState == newState)
 			{
 				return;
 			}
 
-			_peakWarningGO.SetActive(newState);
+			_peakWarningGo.SetActive(newState);
 			if (!oldState && newState)
 			{
 				FadeInText(_text!, (_currentSection!.ToTime - _audioTimeSyncController.songTime) * 0.2f);
