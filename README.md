@@ -5,9 +5,9 @@ It also has the ability to warn you when you're about to reach peak NPS. The mod
 ## Installation
 This mod requires a few other mods in order to work.
 
-- BSIPA v4.1.6 or higher
-- BeatSaberMarkupLanguage v1.5.3 or higher
-- SiraUtil v2.5.5 or higher
+- BSIPA v4.2.0 or higher
+- BeatSaberMarkupLanguage v1.5.11 or higher
+- SiraUtil v3.0.0 or higher
 
 Installation is fairly simple.
 
