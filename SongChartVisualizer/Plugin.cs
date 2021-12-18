@@ -7,7 +7,7 @@ using SongChartVisualizer.Installers;
 
 namespace SongChartVisualizer
 {
-	[Plugin(RuntimeOptions.DynamicInit)]
+	[Plugin(RuntimeOptions.DynamicInit), NoEnableDisable]
 	public class Plugin
 	{
 		[Init]
@@ -19,12 +19,6 @@ namespace SongChartVisualizer
 			zenject.Install<ScvAppInstaller>(Location.App,config.Generated<PluginConfig>());
 			zenject.Install<SvcMenuInstaller>(Location.Menu);
 			zenject.Install<SvcGameInstaller>(Location.StandardPlayer | Location.MultiPlayer);
-		}
-
-		[OnEnable, OnDisable]
-		public void OnStateChanged()
-		{
-			// Zenject is poggers
 		}
 	}
 }
