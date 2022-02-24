@@ -42,6 +42,7 @@ namespace SongChartVisualizer.UI.ViewControllers
 		private GameObject? _peakWarningGo;
 		private int _hardestSectionIdx;
 		private TextMeshProUGUI? _text;
+		private float _timeTillPeak;
 
 		private bool _shouldNotRunTick;
 
@@ -171,7 +172,15 @@ namespace SongChartVisualizer.UI.ViewControllers
 
 			if (_config.PeakWarning && _peakWarningGo!.activeSelf)
 			{
-				_text!.text = $"You're about to reach the peak difficulty in <color=#ffa500ff>{_currentSection.ToTime - _audioTimeSyncController.songTime:F1}</color> seconds!";
+				var timeTillPeakLocal = _currentSection.ToTime - _audioTimeSyncController.songTime;
+				if (_timeTillPeak - timeTillPeakLocal < 0.05f)
+				{
+					return;
+				}
+
+				_timeTillPeak = timeTillPeakLocal;
+
+				_text!.text = $"You're about to reach the peak difficulty in <color=#ffa500ff>{_timeTillPeak:F1}</color> seconds!";
 			}
 		}
 
@@ -290,6 +299,8 @@ namespace SongChartVisualizer.UI.ViewControllers
 			}
 
 			_peakWarningGo.SetActive(false);
+
+			_timeTillPeak = _audioTimeSyncController.songLength;
 		}
 
 		private void FadeInTextIfNeeded()
