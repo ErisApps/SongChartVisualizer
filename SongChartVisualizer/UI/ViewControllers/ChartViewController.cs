@@ -181,7 +181,7 @@ namespace SongChartVisualizer.UI.ViewControllers
 			dotPos.z -= 0.001f;
 			_selfCursor.transform.position = dotPos;
 
-			if (_config.PeakWarning && _canvas!.enabled)
+			if (_config.PeakWarning && _peakWarningGo!.activeSelf)
 			{
 				_text!.text = $"You're about to reach the peak difficulty in <color=#ffa500ff>{_currentSection.ToTime - _audioTimeSyncController.songTime:F1}</color> seconds!";
 			}
