@@ -8,9 +8,7 @@ using BeatSaberMarkupLanguage.FloatingScreen;
 using BeatSaberMarkupLanguage.ViewControllers;
 using DigitalRuby.Tween;
 using HMUI;
-using IPA.Loader;
 using SiraUtil.Logging;
-using SiraUtil.Zenject;
 using SongChartVisualizer.Core;
 using SongChartVisualizer.Models;
 using SongChartVisualizer.Services;
@@ -43,7 +41,6 @@ namespace SongChartVisualizer.UI.ViewControllers
 
 		private GameObject? _peakWarningGo;
 		private int _hardestSectionIdx;
-		private Canvas? _canvas;
 		private TextMeshProUGUI? _text;
 
 		private bool _isFinished;
@@ -267,12 +264,12 @@ namespace SongChartVisualizer.UI.ViewControllers
 		private void PrepareWarningText()
 		{
 			_peakWarningGo = new GameObject("DiffWarningCanvas");
-			_canvas = _peakWarningGo.AddComponent<Canvas>();
-			_canvas.renderMode = RenderMode.WorldSpace;
+			var canvas = _peakWarningGo.AddComponent<Canvas>();
+			canvas.renderMode = RenderMode.WorldSpace;
 
 			_peakWarningGo.AddComponent<CurvedCanvasSettings>().SetRadius(0f);
 
-			var ct = _canvas.transform;
+			var ct = canvas.transform;
 			ct.position = new Vector3(0, 2.25f, 3.5f);
 			ct.localScale /= 100;
 
