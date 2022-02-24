@@ -28,6 +28,7 @@ namespace SongChartVisualizer.UI.ViewControllers
 
 		private AudioTimeSyncController _audioTimeSyncController = null!;
 		private GameplayCoreSceneSetupData _gameplayCoreSceneSetupData = null!;
+		private TimeTweeningManager _timeTweeningManager = null!;
 
 		private FloatingScreen _floatingScreen = null!;
 		private WindowGraph _windowGraph = null!;
@@ -48,8 +49,9 @@ namespace SongChartVisualizer.UI.ViewControllers
 
 		[Inject]
 		internal void Construct(SiraLog siraLog, PluginConfig config, ScvAssetLoader assetLoader, AudioTimeSyncController audioTimeSyncController,
-			GameplayCoreSceneSetupData gameplayCoreSceneSetupData)
+			GameplayCoreSceneSetupData gameplayCoreSceneSetupData, TimeTweeningManager timeTweeningManager)
 		{
+			_timeTweeningManager = timeTweeningManager;
 			_assetLoader = assetLoader;
 			_siraLog = siraLog;
 			_config = config;
@@ -319,9 +321,9 @@ namespace SongChartVisualizer.UI.ViewControllers
 			}
 		}
 
-		private static void FadeInText(TMP_Text text, float t)
+		private void FadeInText(TMP_Text text, float t)
 		{
-			text.gameObject.Tween("FadeInText" + text.gameObject.GetInstanceID(), 0, 1, t, TweenScaleFunctions.Linear, tween => { text.alpha = tween.CurrentValue; });
+			_timeTweeningManager.AddTween(new FloatTween(0, 1, value => text.alpha = value, t, EaseType.Linear), text);
 		}
 	}
 }
