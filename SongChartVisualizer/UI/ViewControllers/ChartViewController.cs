@@ -26,7 +26,6 @@ namespace SongChartVisualizer.UI.ViewControllers
 	{
 		private SiraLog _siraLog = null!;
 		private PluginConfig _config = null!;
-		private string _modName = null!;
 		private ScvAssetLoader _assetLoader = null!;
 
 		private AudioTimeSyncController _audioTimeSyncController = null!;
@@ -37,7 +36,6 @@ namespace SongChartVisualizer.UI.ViewControllers
 
 		private AssetBundle? _assetBundle;
 
-		private BeatmapData? _beatmapData;
 		private List<NpsInfo>? _npsSections;
 		private int _currentSectionIdx;
 		private NpsInfo? _currentSection;
@@ -48,21 +46,19 @@ namespace SongChartVisualizer.UI.ViewControllers
 		private Canvas? _canvas;
 		private TextMeshProUGUI? _text;
 
-		private bool _isInitialized;
 		private bool _isFinished;
 
 		[Inject]
-		internal void Construct(SiraLog siraLog, PluginConfig config, UBinder<Plugin, PluginMetadata> pluginMetadata, ScvAssetLoader assetLoader, AudioTimeSyncController audioTimeSyncController,
+		internal void Construct(SiraLog siraLog, PluginConfig config, ScvAssetLoader assetLoader, AudioTimeSyncController audioTimeSyncController,
 			GameplayCoreSceneSetupData gameplayCoreSceneSetupData)
 		{
 			_assetLoader = assetLoader;
 			_siraLog = siraLog;
 			_config = config;
-			_modName = pluginMetadata.Value.Name;
 			_audioTimeSyncController = audioTimeSyncController;
 			_gameplayCoreSceneSetupData = gameplayCoreSceneSetupData;
 
-			name = $"{_modName} View";
+			name = $"{nameof(SongChartVisualizer)} View";
 		}
 
 		public void Initialize()
@@ -74,7 +70,7 @@ namespace SongChartVisualizer.UI.ViewControllers
 				: Quaternion.Euler(_config.ChartStandardLevelRotation);
 			_floatingScreen = FloatingScreen.CreateFloatingScreen(_config.ChartSize, false, pos, rot, curvatureRadius: 0f, hasBackground: _config.HasBackground);
 			_floatingScreen.SetRootViewController(this, AnimationType.None);
-			_floatingScreen.name = _modName;
+			_floatingScreen.name = nameof(SongChartVisualizer);
 
 			if (_config.HasBackground)
 			{
@@ -85,21 +81,12 @@ namespace SongChartVisualizer.UI.ViewControllers
 				transform.SetParent(imageView.transform);
 			}
 
-			_beatmapData = _gameplayCoreSceneSetupData.difficultyBeatmap?.beatmapData;
-			if (_beatmapData == null)
-			{
-				return;
-			}
+			var beatmapData = _gameplayCoreSceneSetupData.difficultyBeatmap!.beatmapData!;
 
 			// _siraLog.Debug($"There are {_beatmapData.beatmapObjectsData.Count(x => x.beatmapObjectType == BeatmapObjectType.Note)} notes");
 			// _siraLog.Debug($"There are {_beatmapData.beatmapLinesData.Count} lines");
-			var songDuration = _audioTimeSyncController.songLength;
-			if (songDuration < 0)
-			{
-				return;
-			}
 
-			_npsSections = GetNpsSections();
+			_npsSections = GetNpsSections(beatmapData);
 #if DEBUG
 			for (var i = 0; i < _npsSections.Count; i++)
 			{
@@ -145,19 +132,17 @@ namespace SongChartVisualizer.UI.ViewControllers
 
 					FadeInTextIfNeeded();
 				}
-
-				_isInitialized = true;
 			}
 		}
 
 		public void Tick()
 		{
-			if (!_isInitialized || _isFinished)
+			if (!_isFinished)
 			{
 				return;
 			}
 
-			if (_currentSection!.ToTime < _audioTimeSyncController.songTime)
+			if (_audioTimeSyncController.songTime > _currentSection!.ToTime)
 			{
 				_currentSectionIdx++;
 
@@ -219,7 +204,7 @@ namespace SongChartVisualizer.UI.ViewControllers
 		}
 
 		// ReSharper disable once CognitiveComplexity
-		private List<NpsInfo> GetNpsSections()
+		private List<NpsInfo> GetNpsSections(IReadonlyBeatmapData beatmapData)
 		{
 			var npsSections = new List<NpsInfo>();
 
@@ -229,7 +214,7 @@ namespace SongChartVisualizer.UI.ViewControllers
 				return npsSections;
 			}
 
-			var notes = _beatmapData!.beatmapLinesData
+			var notes = beatmapData.beatmapLinesData
 				.SelectMany(beatmapLineData => beatmapLineData.beatmapObjectsData
 					.Where(data => data.beatmapObjectType == BeatmapObjectType.Note && ((NoteData) data).colorType != ColorType.None))
 				.OrderBy(s => s.time)
