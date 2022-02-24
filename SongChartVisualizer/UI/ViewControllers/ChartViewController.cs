@@ -292,7 +292,7 @@ namespace SongChartVisualizer.UI.ViewControllers
 		private void FadeInTextIfNeeded()
 		{
 			var oldState = _peakWarningGo!.activeSelf;
-			var newState = _config.PeakWarning && _currentSectionIdx + 1 == _hardestSectionIdx;
+			var newState = _currentSectionIdx + 1 == _hardestSectionIdx;
 			if (oldState == newState)
 			{
 				return;
