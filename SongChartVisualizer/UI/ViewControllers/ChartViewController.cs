@@ -6,13 +6,13 @@ using BeatSaberMarkupLanguage;
 using BeatSaberMarkupLanguage.Attributes;
 using BeatSaberMarkupLanguage.FloatingScreen;
 using BeatSaberMarkupLanguage.ViewControllers;
-using DigitalRuby.Tween;
 using HMUI;
 using SiraUtil.Logging;
 using SongChartVisualizer.Core;
 using SongChartVisualizer.Models;
 using SongChartVisualizer.Services;
 using TMPro;
+using Tweening;
 using UnityEngine;
 using Zenject;
 
@@ -43,7 +43,7 @@ namespace SongChartVisualizer.UI.ViewControllers
 		private int _hardestSectionIdx;
 		private TextMeshProUGUI? _text;
 
-		private bool _isFinished;
+		private bool _shouldNotRunTick;
 
 		[Inject]
 		internal void Construct(SiraLog siraLog, PluginConfig config, ScvAssetLoader assetLoader, AudioTimeSyncController audioTimeSyncController,
@@ -76,6 +76,12 @@ namespace SongChartVisualizer.UI.ViewControllers
 				imageView.color = _config.CombinedBackgroundColor;
 
 				transform.SetParent(imageView.transform);
+			}
+
+			if (_audioTimeSyncController.songLength < 0)
+			{
+				_shouldNotRunTick = true;
+				return;
 			}
 
 			var beatmapData = _gameplayCoreSceneSetupData.difficultyBeatmap!.beatmapData!;
@@ -134,7 +140,7 @@ namespace SongChartVisualizer.UI.ViewControllers
 
 		public void Tick()
 		{
-			if (!_isFinished)
+			if (_shouldNotRunTick)
 			{
 				return;
 			}
@@ -145,7 +151,7 @@ namespace SongChartVisualizer.UI.ViewControllers
 
 				if (_currentSectionIdx + 1 >= _npsSections!.Count)
 				{
-					_isFinished = true;
+					_shouldNotRunTick = true;
 					return;
 				}
 
