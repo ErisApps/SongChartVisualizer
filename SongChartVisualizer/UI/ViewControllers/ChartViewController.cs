@@ -27,7 +27,7 @@ namespace SongChartVisualizer.UI.ViewControllers
 		private ScvAssetLoader _assetLoader = null!;
 
 		private AudioTimeSyncController _audioTimeSyncController = null!;
-		private GameplayCoreSceneSetupData _gameplayCoreSceneSetupData = null!;
+		private IReadonlyBeatmapData _beatmapData = null!;
 		private TimeTweeningManager _timeTweeningManager = null!;
 
 		private FloatingScreen _floatingScreen = null!;
@@ -49,21 +49,21 @@ namespace SongChartVisualizer.UI.ViewControllers
 
 		[Inject]
 		internal void Construct(SiraLog siraLog, PluginConfig config, ScvAssetLoader assetLoader, AudioTimeSyncController audioTimeSyncController,
-			GameplayCoreSceneSetupData gameplayCoreSceneSetupData, TimeTweeningManager timeTweeningManager)
+			IReadonlyBeatmapData beatmap, TimeTweeningManager timeTweeningManager)
 		{
 			_timeTweeningManager = timeTweeningManager;
 			_assetLoader = assetLoader;
 			_siraLog = siraLog;
 			_config = config;
 			_audioTimeSyncController = audioTimeSyncController;
-			_gameplayCoreSceneSetupData = gameplayCoreSceneSetupData;
+			_beatmapData = beatmap;
 
 			name = $"{nameof(SongChartVisualizer)} View";
 		}
 
 		public void Initialize()
 		{
-			var is360Level = _gameplayCoreSceneSetupData.difficultyBeatmap?.beatmapData?.spawnRotationEventsCount > 0;
+			var is360Level = _beatmapData.spawnRotationEventsCount > 0;
 			var pos = is360Level ? _config.Chart360LevelPosition : _config.ChartStandardLevelPosition;
 			var rot = is360Level
 				? Quaternion.Euler(_config.Chart360LevelRotation)
@@ -87,12 +87,10 @@ namespace SongChartVisualizer.UI.ViewControllers
 				return;
 			}
 
-			var beatmapData = _gameplayCoreSceneSetupData.difficultyBeatmap!.beatmapData!;
-
 			// _siraLog.Debug($"There are {_beatmapData.beatmapObjectsData.Count(x => x.beatmapObjectType == BeatmapObjectType.Note)} notes");
 			// _siraLog.Debug($"There are {_beatmapData.beatmapLinesData.Count} lines");
 
-			_npsSections = GetNpsSections(beatmapData);
+			_npsSections = GetNpsSections(_beatmapData);
 #if DEBUG
 			for (var i = 0; i < _npsSections.Count; i++)
 			{
@@ -228,9 +226,8 @@ namespace SongChartVisualizer.UI.ViewControllers
 				return npsSections;
 			}
 
-			var notes = beatmapData.beatmapLinesData
-				.SelectMany(beatmapLineData => beatmapLineData.beatmapObjectsData
-					.Where(data => data.beatmapObjectType == BeatmapObjectType.Note && ((NoteData) data).colorType != ColorType.None))
+			var notes = beatmapData.GetBeatmapDataItems<NoteData>()
+				.Where(noteData => noteData.gameplayType != NoteData.GameplayType.Bomb)
 				.OrderBy(s => s.time)
 				.ToList();
 

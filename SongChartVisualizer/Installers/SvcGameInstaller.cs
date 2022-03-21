@@ -16,7 +16,7 @@ namespace SongChartVisualizer.Installers
 
 		public override void InstallBindings()
 		{
-			if (!_pluginConfig.EnablePlugin || _gameCoreSceneSetupData.playerSpecificSettings.noTextsAndHuds || _gameCoreSceneSetupData.difficultyBeatmap?.beatmapData == null)
+			if (!_pluginConfig.EnablePlugin || _gameCoreSceneSetupData.playerSpecificSettings.noTextsAndHuds || _gameCoreSceneSetupData.transformedBeatmapData == null)
 			{
 				return;
 			}
