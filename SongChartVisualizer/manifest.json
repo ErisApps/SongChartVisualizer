@@ -4,8 +4,8 @@
 	"name": "SongChartVisualizer",
 	"description": "Displays an in-game chart with song difficulty information!",
 	"author": "Eris",
-	"gameVersion": "1.19.1",
-	"version": "1.1.5",
+	"gameVersion": "1.20.0",
+	"version": "1.1.6",
 	"dependsOn": {
 		"BSIPA": "^4.2.2",
 		"BeatSaberMarkupLanguage": "^1.6.3",
