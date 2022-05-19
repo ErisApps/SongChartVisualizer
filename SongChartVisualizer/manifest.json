@@ -8,8 +8,8 @@
 	"version": "1.1.6",
 	"dependsOn": {
 		"BSIPA": "^4.2.2",
-		"BeatSaberMarkupLanguage": "^1.6.3",
-		"SiraUtil": "^3.0.5"
+		"BeatSaberMarkupLanguage": "^1.6.4",
+		"SiraUtil": "^3.0.6"
 	},
 	"loadBefore": [
 		"BeatSaberPlus"
