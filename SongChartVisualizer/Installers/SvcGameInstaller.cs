@@ -19,7 +19,8 @@ namespace SongChartVisualizer.Installers
 			if (!_pluginConfig.EnablePlugin
 			    || _gameCoreSceneSetupData.playerSpecificSettings.noTextsAndHuds
 			    || _gameCoreSceneSetupData.gameplayModifiers.zenMode
-			    || _gameCoreSceneSetupData.transformedBeatmapData == null)
+			    || _gameCoreSceneSetupData.transformedBeatmapData == null
+			    || _gameCoreSceneSetupData.transformedBeatmapData.cuttableNotesCount == 0)
 			{
 				return;
 			}
