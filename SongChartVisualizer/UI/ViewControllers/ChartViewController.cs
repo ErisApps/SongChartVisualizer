@@ -226,7 +226,7 @@ namespace SongChartVisualizer.UI.ViewControllers
 				return npsSections;
 			}
 
-			var notes = beatmapData.GetBeatmapDataItems<NoteData>()
+			var notes = beatmapData.GetBeatmapDataItems<NoteData>(0)
 				.Where(noteData => noteData.gameplayType != NoteData.GameplayType.Bomb)
 				.OrderBy(s => s.time)
 				.ToList();
