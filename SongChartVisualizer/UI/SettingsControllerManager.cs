@@ -7,7 +7,7 @@ using Zenject;
 
 namespace SongChartVisualizer.UI
 {
-	internal class SettingsControllerManager : IInitializable, IDisposable
+	internal sealed class SettingsControllerManager : IInitializable, IDisposable
 	{
 		private readonly string _name;
 		private SettingsController? _settingsHost;
