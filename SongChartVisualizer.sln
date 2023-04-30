@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27703.2047
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SongChartVisualizer", "SongChartVisualizer\SongChartVisualizer.csproj", "{64A2A30B-9DC5-44CE-90E4-A790CA13A124}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SongChartVisualizer", "source\SongChartVisualizer\SongChartVisualizer.csproj", "{64A2A30B-9DC5-44CE-90E4-A790CA13A124}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
