@@ -16,7 +16,7 @@ using Serilog;
 using static Nuke.Common.Tools.DotNet.DotNetTasks;
 
 [ShutdownDotNetAfterServerBuild]
-partial class Build : NukeBuild, IClean, IDeserializeManifest, IDownloadGameRefs, IDownloadBeatModsDependencies
+partial class Build : NukeBuild, ICleanRefs, IDeserializeManifest, IDownloadGameRefs, IDownloadBeatModsDependencies
 {
 	/// Support plugins are available for:
 	///   - JetBrains ReSharper        https://nuke.build/resharper
@@ -31,8 +31,7 @@ partial class Build : NukeBuild, IClean, IDeserializeManifest, IDownloadGameRefs
 
 	[GitVersion] readonly GitVersion GitVersion;
 
-	Target IClean.Clean => _ => _
-		.Inherit<IClean>()
+	Target Clean => _ => _
 		.Executes(() =>
 		{
 			DotNetClean(s => s.SetProject(Solution.SongChartVisualizer));
@@ -42,11 +41,12 @@ partial class Build : NukeBuild, IClean, IDeserializeManifest, IDownloadGameRefs
 		.After(RestorePackages)
 		.OnlyWhenStatic(() => IsServerBuild)
 		.WhenSkipped(DependencyBehavior.Skip)
+		.DependsOn<ICleanRefs>()
 		.DependsOn<IDownloadGameRefs>()
 		.DependsOn<IDownloadBeatModsDependencies>();
 
 	Target RestorePackages => _ => _
-		.DependsOn<IClean>()
+		.DependsOn(Clean)
 		.Executes(() => DotNetRestore(settings => settings.SetProjectFile(Solution.SongChartVisualizer)));
 
 	Target Compile => _ => _
