@@ -86,6 +86,7 @@
             "type": "string",
             "enum": [
               "Clean",
+              "CleanRefs",
               "Compile",
               "CreateGitHubRelease",
               "DeserializeManifest",
@@ -111,6 +112,7 @@
             "type": "string",
             "enum": [
               "Clean",
+              "CleanRefs",
               "Compile",
               "CreateGitHubRelease",
               "DeserializeManifest",

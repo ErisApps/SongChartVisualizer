@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using BeatSaberMarkupLanguage.Settings;
 using IPA.Loader;
 using SiraUtil.Zenject;
@@ -20,7 +20,7 @@ namespace SongChartVisualizer.UI
 
 		public void Initialize()
 		{
-			BSMLSettings.instance.AddSettingsMenu($"<size=75%>{_name}</size>", "SongChartVisualizer.UI.Views.settings.bsml", _settingsHost);
+			BSMLSettings.Instance.AddSettingsMenu($"<size=75%>{_name}</size>", "SongChartVisualizer.UI.Views.settings.bsml", _settingsHost);
 		}
 
 		public void Dispose()
@@ -30,7 +30,7 @@ namespace SongChartVisualizer.UI
 				return;
 			}
 
-			BSMLSettings.instance.RemoveSettingsMenu(_settingsHost);
+			BSMLSettings.Instance.RemoveSettingsMenu(_settingsHost);
 			_settingsHost = null!;
 		}
 	}
