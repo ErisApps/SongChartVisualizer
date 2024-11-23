@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -28,6 +28,7 @@ namespace SongChartVisualizer.UI.ViewControllers
 
 		private AudioTimeSyncController _audioTimeSyncController = null!;
 		private IReadonlyBeatmapData _beatmapData = null!;
+		private BeatmapKey _beatmapKey;
 		private TimeTweeningManager _timeTweeningManager = null!;
 
 		private FloatingScreen _floatingScreen = null!;
@@ -49,7 +50,7 @@ namespace SongChartVisualizer.UI.ViewControllers
 
 		[Inject]
 		internal void Construct(SiraLog siraLog, PluginConfig config, ScvAssetLoader assetLoader, AudioTimeSyncController audioTimeSyncController,
-			IReadonlyBeatmapData beatmap, TimeTweeningManager timeTweeningManager)
+			IReadonlyBeatmapData beatmap, BeatmapKey beatmapKey, TimeTweeningManager timeTweeningManager)
 		{
 			_timeTweeningManager = timeTweeningManager;
 			_assetLoader = assetLoader;
@@ -57,13 +58,14 @@ namespace SongChartVisualizer.UI.ViewControllers
 			_config = config;
 			_audioTimeSyncController = audioTimeSyncController;
 			_beatmapData = beatmap;
+			_beatmapKey = beatmapKey;
 
 			name = $"{nameof(SongChartVisualizer)} View";
 		}
 
 		public void Initialize()
 		{
-			var is360Level = _beatmapData.spawnRotationEventsCount > 0;
+			var is360Level = _beatmapKey.beatmapCharacteristic.requires360Movement;
 			var pos = is360Level ? _config.Chart360LevelPosition : _config.ChartStandardLevelPosition;
 			var rot = is360Level
 				? Quaternion.Euler(_config.Chart360LevelRotation)
